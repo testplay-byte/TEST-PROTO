@@ -1,0 +1,72 @@
+/* proto-kit / bottom-nav — floating pill nav.
+   Active item is content-sized (flex: 0 1 auto) so full labels show.
+   Inactive items are icon-only (flex: 1 1 0). */
+
+.bottomnav {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  height: 58px;
+  background: var(--color-surface-3);
+  border-radius: var(--r-xl);
+  border: none;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.item {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 42px;
+  border-radius: var(--r-pill);
+  color: var(--color-text-muted);
+  font-size: var(--fs-label);
+  transition:
+    color var(--dur-2) var(--ease-standard),
+    background var(--dur-3) var(--ease-emphasized),
+    flex var(--dur-3) var(--ease-emphasized);
+  position: relative;
+  padding: 0 10px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Active: content-sized pill, full label visible */
+.itemIsActive {
+  flex: 0 1 auto;
+  color: var(--color-on-primary-container);
+  background: var(--color-primary-container);
+  padding: 0 14px;
+}
+
+.label {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity var(--dur-2) var(--ease-standard);
+}
+.labelHidden {
+  display: none;
+}
+
+.icon {
+  flex: 0 0 auto;
+  transition: transform var(--dur-2) var(--ease-emphasized);
+}
+.iconActive {
+  transform: scale(1.05);
+}
+
+@media (pointer: fine) {
+  .item:active {
+    transform: scale(0.92);
+  }
+}

@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Starter Template — ANDROID-PROTOTYPE</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+
+  <div class="stage">
+
+    <!-- ============ LEFT INFO PANEL ============ -->
+    <aside class="sidepanel sidepanel--left" aria-label="Prototype info">
+      <span class="sidepanel__badge">reference</span>
+      <h2 class="sidepanel__title">Starter Template</h2>
+      <p class="sidepanel__desc">The scaffold every new prototype is copied from. A real, clickable phone frame with switchable views, bottom navigation, and dark/light theming.</p>
+
+      <div class="tags">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JS</span>
+      </div>
+
+      <div class="screentlist">
+        <h3 class="screentlist__head">Screens</h3>
+        <button class="screentlist__item is-active" data-goto="home">
+          <span class="screentlist__dot"></span>
+          <span class="screentlist__name">Home</span>
+          <span class="screentlist__hint">feed</span>
+        </button>
+        <button class="screentlist__item" data-goto="search">
+          <span class="screentlist__dot"></span>
+          <span class="screentlist__name">Search</span>
+          <span class="screentlist__hint">filter</span>
+        </button>
+        <button class="screentlist__item" data-goto="profile">
+          <span class="screentlist__dot"></span>
+          <span class="screentlist__name">Profile</span>
+          <span class="screentlist__hint">user</span>
+        </button>
+        <button class="screentlist__item" data-goto="settings">
+          <span class="screentlist__dot"></span>
+          <span class="screentlist__name">Settings</span>
+          <span class="screentlist__hint">toggles</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ============ DEVICE (data-theme scoped HERE, not on <html>) ============ -->
+    <div class="device" id="device" data-theme="light">
+
+      <!-- Status bar: time (left) | punch-hole (center) | wifi signal battery % (right) -->
+      <div class="statusbar">
+        <span class="statusbar__time" id="clock">9:41</span>
+        <div class="statusbar__punchhole" aria-hidden="true"></div>
+        <span class="statusbar__icons" aria-hidden="true">
+          <!-- Wi-Fi (2 of 3 arcs bright; outermost dim) -->
+          <svg class="ic ic-wifi" width="15" height="11" viewBox="0 0 15 11" fill="currentColor">
+            <path d="M7.5 0.5C4.6 0.5 1.9 1.6 0 3.3l1.2 1.2A8.8 8.8 0 0 1 7.5 2c2.3 0 4.4.8 6 2.2L14.7 3A11.5 11.5 0 0 0 7.5.5z" opacity="0.3"/>
+            <path d="M7.5 3.8c-1.8 0-3.4.7-4.6 1.8l1.2 1.2A4.7 4.7 0 0 1 7.5 5.3c1.2 0 2.3.4 3.2 1.2l1.2-1.2A6.5 6.5 0 0 0 7.5 3.8z"/>
+            <path d="M7.5 7.2c-.8 0-1.5.3-2 .8L7.5 11l2-2.5c-.5-.5-1.2-.8-2-.8z"/>
+          </svg>
+          <!-- Mobile signal (LEFT 2 bars bright, RIGHT 2 dim) -->
+          <svg class="ic ic-signal" width="16" height="11" viewBox="0 0 16 11" fill="currentColor">
+            <rect x="0" y="8" width="3" height="3" rx="0.5"/>
+            <rect x="4.5" y="6" width="3" height="5" rx="0.5"/>
+            <rect x="9" y="3.5" width="3" height="7.5" rx="0.5" opacity="0.3"/>
+            <rect x="13.5" y="1" width="3" height="10" rx="0.5" opacity="0.3"/>
+          </svg>
+          <!-- Portrait battery (smaller) + percentage to its right -->
+          <span class="battery">
+            <svg class="ic ic-batt" width="8" height="16" viewBox="0 0 8 16" fill="none">
+              <rect x="2.5" y="0" width="3" height="1.5" rx="0.75" fill="currentColor" opacity="0.5"/>
+              <rect x="0.5" y="1.5" width="7" height="14" rx="2" stroke="currentColor" stroke-width="0.9" stroke-opacity="0.6"/>
+              <rect class="battery__fill" id="battFill" x="1.5" y="3" width="5" height="11" rx="0.8" fill="currentColor"/>
+            </svg>
+            <span class="battery__pct"><span id="battPct">87</span>%</span>
+          </span>
+        </span>
+      </div>
+
+      <!-- Screen viewport -->
+      <main class="screen" id="screen">
+
+        <!-- ===== Screen: Home (scrollable feed) ===== -->
+        <section class="view view--active" data-view="home" aria-label="Home screen">
+          <header class="appbar">
+            <h1 class="appbar__title">Feed</h1>
+            <button class="iconbtn" id="themeToggle" aria-label="Toggle theme">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+          </header>
+          <div class="content">
+
+            <!-- Story / quick actions strip -->
+            <div class="stories">
+              <button class="story">
+                <span class="story__avatar story__avatar--add">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                </span>
+                <span class="story__label">New</span>
+              </button>
+              <button class="story"><span class="story__avatar" style="background:linear-gradient(135deg,#f05100,#f2a618)">A</span><span class="story__label">Alex</span></button>
+              <button class="story"><span class="story__avatar" style="background:linear-gradient(135deg,#0fa05c,#3d6a7f)">M</span><span class="story__label">Mia</span></button>
+              <button class="story"><span class="story__avatar" style="background:linear-gradient(135deg,#f0503d,#f2a618)">J</span><span class="story__label">Jordan</span></button>
+              <button class="story"><span class="story__avatar" style="background:linear-gradient(135deg,#3d6a7f,#0fa05c)">S</span><span class="story__label">Sam</span></button>
+            </div>
+
+            <!-- Feed cards -->
+            <article class="post">
+              <div class="post__head">
+                <span class="post__avatar" style="background:linear-gradient(135deg,#f05100,#f2a618)">A</span>
+                <div class="post__meta">
+                  <span class="post__author">Alex Rivera</span>
+                  <span class="post__time">2 min ago</span>
+                </div>
+                <button class="iconbtn iconbtn--sm" aria-label="More"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+              </div>
+              <p class="post__text">Just shipped a new prototype kit for mobile UI exploration. Four screens, fully interactive, zero build step. Swipe through to see it in action.</p>
+              <div class="post__img" style="background:linear-gradient(135deg,var(--chart-1),var(--chart-4))">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+              </div>
+              <div class="post__actions">
+                <button class="post__action" data-like>
+                  <svg class="post__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  <span class="post__count">24</span>
+                </button>
+                <button class="post__action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  <span class="post__count">8</span>
+                </button>
+                <button class="post__action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                  <span class="post__count">3</span>
+                </button>
+              </div>
+            </article>
+
+            <article class="post">
+              <div class="post__head">
+                <span class="post__avatar" style="background:linear-gradient(135deg,#0fa05c,#3d6a7f)">M</span>
+                <div class="post__meta">
+                  <span class="post__author">Mia Chen</span>
+                  <span class="post__time">15 min ago</span>
+                </div>
+                <button class="iconbtn iconbtn--sm" aria-label="More"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+              </div>
+              <p class="post__text">Dark mode isn't just inverting colors. It's about depth, contrast, and restraint. Here's a quick thread on what I learned shipping it.</p>
+              <div class="post__actions">
+                <button class="post__action" data-like>
+                  <svg class="post__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  <span class="post__count">142</span>
+                </button>
+                <button class="post__action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  <span class="post__count">31</span>
+                </button>
+                <button class="post__action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                  <span class="post__count">22</span>
+                </button>
+              </div>
+            </article>
+
+            <article class="post">
+              <div class="post__head">
+                <span class="post__avatar" style="background:linear-gradient(135deg,#f0503d,#f2a618)">J</span>
+                <div class="post__meta">
+                  <span class="post__author">Jordan Park</span>
+                  <span class="post__time">1 hour ago</span>
+                </div>
+                <button class="iconbtn iconbtn--sm" aria-label="More"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+              </div>
+              <p class="post__text">Tip: if your bottom nav overlaps content, add scroll padding to the bottom. Simple fix, huge UX improvement.</p>
+              <div class="post__actions">
+                <button class="post__action" data-like>
+                  <svg class="post__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  <span class="post__count">56</span>
+                </button>
+                <button class="post__action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  <span class="post__count">12</span>
+                </button>
+                <button class="post__action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                  <span class="post__count">7</span>
+                </button>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- ===== Screen: Search ===== -->
+        <section class="view" data-view="search" aria-label="Search screen">
+          <header class="appbar appbar--search">
+            <div class="searchbar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="text" id="searchInput" placeholder="Search prototypes, screens…" />
+            </div>
+          </header>
+          <div class="content">
+            <h2 class="section-label">Recent</h2>
+            <ul class="list" id="recentList">
+              <li class="list__row"><span class="list__icon">🕐</span><span>food-delivery-checkout</span><span class="list__meta">→</span></li>
+              <li class="list__row"><span class="list__icon">🕐</span><span>onboarding-flow</span><span class="list__meta">→</span></li>
+              <li class="list__row"><span class="list__icon">🕐</span><span>settings-screen</span><span class="list__meta">→</span></li>
+            </ul>
+
+            <h2 class="section-label">Trending</h2>
+            <div class="chips">
+              <button class="chip">Material You</button>
+              <button class="chip">Dark mode</button>
+              <button class="chip">Bottom sheet</button>
+              <button class="chip">Onboarding</button>
+              <button class="chip">Swipe actions</button>
+              <button class="chip">Glassmorphism</button>
+            </div>
+
+            <h2 class="section-label">Categories</h2>
+            <ul class="list">
+              <li class="list__row"><span class="list__icon">📱</span><span>Social</span><span class="list__meta">12</span></li>
+              <li class="list__row"><span class="list__icon">🛒</span><span>E-commerce</span><span class="list__meta">8</span></li>
+              <li class="list__row"><span class="list__icon">🎵</span><span>Media</span><span class="list__meta">5</span></li>
+              <li class="list__row"><span class="list__icon">📊</span><span>Dashboard</span><span class="list__meta">3</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ===== Screen: Profile ===== -->
+        <section class="view" data-view="profile" aria-label="Profile screen">
+          <header class="appbar">
+            <h1 class="appbar__title">Profile</h1>
+            <button class="iconbtn" aria-label="Share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+          </header>
+          <div class="content">
+            <div class="profile">
+              <span class="profile__avatar" style="background:linear-gradient(135deg,var(--chart-1),var(--chart-4))">AR</span>
+              <h2 class="profile__name">Alex Rivera</h2>
+              <p class="profile__bio">Product designer · building mobile UI prototypes</p>
+              <div class="profile__stats">
+                <div class="profile__stat"><span class="profile__stat-num">24</span><span class="profile__stat-label">Posts</span></div>
+                <div class="profile__stat"><span class="profile__stat-num">1.2k</span><span class="profile__stat-label">Followers</span></div>
+                <div class="profile__stat"><span class="profile__stat-num">389</span><span class="profile__stat-label">Following</span></div>
+              </div>
+              <div class="profile__actions">
+                <button class="btn btn--primary" id="followBtn">Follow</button>
+                <button class="btn btn--secondary">Message</button>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <button class="tab is-active" data-tab="posts">Posts</button>
+              <button class="tab" data-tab="media">Media</button>
+              <button class="tab" data-tab="likes">Likes</button>
+            </div>
+
+            <div class="grid-feed" id="profileGrid">
+              <div class="grid-item" style="background:linear-gradient(135deg,#f05100,#f2a618)"></div>
+              <div class="grid-item" style="background:linear-gradient(135deg,#0fa05c,#3d6a7f)"></div>
+              <div class="grid-item" style="background:linear-gradient(135deg,#f0503d,#f2a618)"></div>
+              <div class="grid-item" style="background:linear-gradient(135deg,#3d6a7f,#0fa05c)"></div>
+              <div class="grid-item" style="background:linear-gradient(135deg,#f2a618,#f0503d)"></div>
+              <div class="grid-item" style="background:linear-gradient(135deg,#0fa05c,#f05100)"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== Screen: Settings ===== -->
+        <section class="view" data-view="settings" aria-label="Settings screen">
+          <header class="appbar">
+            <h1 class="appbar__title">Settings</h1>
+          </header>
+          <div class="content">
+
+            <h2 class="section-label">Appearance</h2>
+            <div class="card card--flush">
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__title">Dark mode</span>
+                  <span class="setting-row__desc">Use dark theme</span>
+                </div>
+                <button class="toggle is-on" data-toggle aria-label="Toggle dark mode"><span class="toggle__knob"></span></button>
+              </div>
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__title">Reduced motion</span>
+                  <span class="setting-row__desc">Minimize animations</span>
+                </div>
+                <button class="toggle" data-toggle aria-label="Toggle reduced motion"><span class="toggle__knob"></span></button>
+              </div>
+            </div>
+
+            <h2 class="section-label">Notifications</h2>
+            <div class="card card--flush">
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__title">Push notifications</span>
+                  <span class="setting-row__desc">Receive updates on this device</span>
+                </div>
+                <button class="toggle is-on" data-toggle aria-label="Toggle push"><span class="toggle__knob"></span></button>
+              </div>
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__title">Email digest</span>
+                  <span class="setting-row__desc">Weekly summary</span>
+                </div>
+                <button class="toggle" data-toggle aria-label="Toggle email"><span class="toggle__knob"></span></button>
+              </div>
+            </div>
+
+            <h2 class="section-label">Privacy</h2>
+            <div class="card card--flush">
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__title">Private account</span>
+                  <span class="setting-row__desc">Only followers can see posts</span>
+                </div>
+                <button class="toggle" data-toggle aria-label="Toggle private"><span class="toggle__knob"></span></button>
+              </div>
+              <button class="setting-row setting-row--btn">
+                <div class="setting-row__info">
+                  <span class="setting-row__title">Clear cache</span>
+                  <span class="setting-row__desc">42 MB stored</span>
+                </div>
+                <span class="list__meta">→</span>
+              </button>
+            </div>
+
+            <button class="btn btn--secondary" style="align-self:stretch;color:var(--color-danger)">Sign out</button>
+          </div>
+        </section>
+
+        <!-- Bottom navigation -->
+        <nav class="bottomnav" aria-label="Primary">
+          <button class="bottomnav__item is-active" data-goto="home">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+            <span>Home</span>
+          </button>
+          <button class="bottomnav__item" data-goto="search">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <span>Search</span>
+          </button>
+          <button class="bottomnav__item" data-goto="profile">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Profile</span>
+          </button>
+          <button class="bottomnav__item" data-goto="settings">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings</span>
+          </button>
+        </nav>
+
+      </main>
+
+      <!-- Home indicator -->
+      <div class="home-indicator" aria-hidden="true"></div>
+    </div>
+
+    <!-- ============ RIGHT INFO PANEL ============ -->
+    <aside class="sidepanel sidepanel--right" aria-label="Screen statistics">
+      <h3 class="sidepanel__head">Screen info</h3>
+      <div class="screeninfo">
+        <span class="screeninfo__name" id="screenInfoName">Home</span>
+        <span class="screeninfo__desc" id="screenInfoDesc">Scrollable feed with interactive cards, like buttons, and story avatars.</span>
+      </div>
+
+      <h3 class="sidepanel__head">Components</h3>
+      <div class="mini-donut-wrap">
+        <div class="mini-donut">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="var(--sb-muted)" stroke-width="7"/>
+            <circle cx="32" cy="32" r="26" fill="none" stroke="var(--chart-1)" stroke-width="7" stroke-dasharray="51 163" transform="rotate(-90 32 32)"/>
+            <circle cx="32" cy="32" r="26" fill="none" stroke="var(--chart-4)" stroke-width="7" stroke-dasharray="34 163" stroke-dashoffset="-51" transform="rotate(-90 32 32)"/>
+            <circle cx="32" cy="32" r="26" fill="none" stroke="var(--chart-2)" stroke-width="7" stroke-dasharray="20 163" stroke-dashoffset="-85" transform="rotate(-90 32 32)"/>
+          </svg>
+          <span class="mini-donut__num">12</span>
+        </div>
+        <ul class="mini-legend">
+          <li><span class="dot" style="background:var(--chart-1)"></span>Cards<span>b</span>4</li>
+          <li><span class="dot" style="background:var(--chart-4)"></span>Inputs<span>b</span>3</li>
+          <li><span class="dot" style="background:var(--chart-2)"></span>Toggles<span>b</span>2</li>
+          <li><span class="dot" style="background:var(--sb-muted)"></span>Other<span>b</span>3</li>
+        </ul>
+      </div>
+
+      <h3 class="sidepanel__head">Interactions</h3>
+      <div class="mini-bars">
+        <div class="mini-bar-row"><span class="mini-bar-label">Tap</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:90%;background:var(--chart-1)"></div></div><span class="mini-bar-num">18</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Scroll</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:65%;background:var(--chart-4)"></div></div><span class="mini-bar-num">13</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Toggle</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:40%;background:var(--chart-2)"></div></div><span class="mini-bar-num">8</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Swipe</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:20%;background:var(--chart-3)"></div></div><span class="mini-bar-num">4</span></div>
+      </div>
+
+      <h3 class="sidepanel__head">Stats</h3>
+      <div class="kvlist">
+        <div class="kvlist__row"><span>Screens</span><b>4</b></div>
+        <div class="kvlist__row"><span>Components</span><b>12</b></div>
+        <div class="kvlist__row"><span>Interactions</span><b>43</b></div>
+        <div class="kvlist__row"><span>Updated</span><b>2025-01-15</b></div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Mobile fullscreen toggle (only visible on mobile) -->
+  <button class="fs-toggle" id="fsToggle" aria-label="Toggle fullscreen">
+    <svg id="fsIconExpand" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V5a2 2 0 0 1 2-2h4M21 9V5a2 2 0 0 0-2-2h-4M3 15v4a2 2 0 0 0 2 2h4M21 15v4a2 2 0 0 1-2 2h-4"/></svg>
+    <svg id="fsIconShrink" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M9 3v4a2 2 0 0 1-2 2H3M15 3v4a2 2 0 0 0 2 2h4M9 21v-4a2 2 0 0 0-2-2H3M15 21v-4a2 2 0 0 1 2-2h4"/></svg>
+  </button>
+
+  <script src="./script.js"></script>
+</body>
+</html>

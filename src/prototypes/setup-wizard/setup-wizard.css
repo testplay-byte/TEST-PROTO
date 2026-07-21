@@ -1,0 +1,651 @@
+/* setup-wizard.css — global styles + shared animations for the wizard.
+   Uses the proto-kit tokens (imported in layout.tsx).
+   The primary color is set dynamically via CSS custom properties on .device
+   (see page.tsx — the wizard controller applies the selected palette). */
+
+/* ---- Wizard screen layout ---- */
+.wizard-step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(40px);
+  transition: opacity 0.4s var(--ease-emphasized-decel),
+              transform 0.4s var(--ease-emphasized-decel);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* No padding-top needed — the progress bar now flows in the flex column
+     above the Screen, so wizard content starts at the top of the Screen. */
+}
+.wizard-step::-webkit-scrollbar { display: none; }
+
+.wizard-step--active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+/* ---- Shared elements ---- */
+.wizard-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4) var(--sp-5);
+  text-align: center;
+  gap: var(--sp-4);
+}
+
+.wizard-title {
+  font-size: var(--fs-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0;
+  animation: titleSlideUp 0.5s var(--ease-emphasized-decel) backwards;
+}
+
+.wizard-title--xl {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.wizard-subtitle {
+  font-size: var(--fs-body-l);
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 28ch;
+  animation: titleSlideUp 0.5s var(--ease-emphasized-decel) 0.1s backwards;
+}
+
+.wizard-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-5) calc(var(--sp-6) + 16px);
+  width: 100%;
+}
+
+.wizard-btn {
+  flex: 1 1 0;
+  height: 52px;
+  border-radius: var(--r-pill);
+  border: none;
+  font-size: var(--fs-body-l);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: transform 0.15s var(--ease-emphasized),
+              background 0.2s var(--ease-standard),
+              opacity 0.2s var(--ease-standard),
+              box-shadow 0.2s var(--ease-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  user-select: none;
+}
+
+.wizard-btn:hover {
+  transform: translateY(-1px);
+}
+
+.wizard-btn:active {
+  transform: scale(0.96);
+}
+
+.wizard-btn:disabled {
+  cursor: not-allowed;
+  transform: none;
+}
+
+.wizard-btn--primary {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+.wizard-btn--primary:hover:not(:disabled) {
+  box-shadow: 0 6px 22px color-mix(in srgb, var(--color-primary) 42%, transparent);
+}
+
+.wizard-btn--secondary {
+  background: var(--color-surface-3);
+  color: var(--color-text);
+  box-shadow: inset 0 0 0 1px var(--color-surface-4);
+}
+
+.wizard-btn--secondary:hover:not(:disabled) {
+  background: var(--color-surface-4);
+}
+
+.wizard-btn--ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+/* Compact, refined "select" button — outlined style with icon.
+   Used for "Select Folder" / "Select Backup File" CTAs. */
+.wizard-btn--select {
+  flex: 0 0 auto;
+  height: 44px;
+  padding: 0 var(--sp-5);
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  font-size: var(--fs-body);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  cursor: pointer;
+  transition: background 0.18s var(--ease-emphasized),
+              transform 0.15s var(--ease-emphasized),
+              box-shadow 0.18s var(--ease-standard);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+.wizard-btn--select:hover {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  transform: translateY(-1px);
+}
+
+.wizard-btn--select:active {
+  transform: scale(0.97);
+}
+
+.wizard-btn--select svg {
+  flex: 0 0 auto;
+}
+
+/* ---- Animations ---- */
+
+/* Title slide-up on screen enter */
+@keyframes titleSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating animation for illustrations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Gentle pulse */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(0.95); }
+}
+
+/* Rotating gradient background */
+@keyframes rotateGradient {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Bouncing dots */
+@keyframes bounceDot {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Scale in */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Fade in up */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger helper — apply with animation-delay inline */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* ---- Illustration container ---- */
+.illustration {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: float 4s ease-in-out infinite;
+}
+
+.illustration--lg {
+  width: 240px;
+  height: 240px;
+}
+
+.illustration svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible; /* allow orbiting ripples, sparkles to extend */
+}
+
+.illustration--clip svg {
+  overflow: hidden; /* contain elements within the viewBox */
+}
+
+/* ---- Animated background orbs (decorative) ---- */
+.bg-orbs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.15;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* ---- Theme selector ---- */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+  width: 100%;
+  max-width: 280px;
+}
+
+.palette-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-radius: var(--r-md);
+  background: var(--color-surface-2);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease-emphasized),
+              transform 0.15s var(--ease-emphasized);
+}
+
+.palette-card:active {
+  transform: scale(0.95);
+}
+
+.palette-card--active {
+  border-color: var(--color-primary);
+}
+
+.palette-swatch {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.palette-name {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.palette-card--active .palette-name {
+  color: var(--color-text);
+}
+
+/* ---- Theme mode toggle ---- */
+.mode-toggle {
+  display: flex;
+  gap: var(--sp-1);
+  background: var(--color-surface-2);
+  border-radius: var(--r-pill);
+  padding: 4px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.mode-btn {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  padding: 10px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-body-s);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background 0.2s var(--ease-emphasized),
+              color 0.2s var(--ease-emphasized);
+  border: none;
+  background: transparent;
+}
+
+.mode-btn--active {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+}
+
+/* ---- Permission toggle row ---- */
+.perm-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--color-surface-2);
+  width: 100%;
+}
+
+.perm-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-surface-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  flex: 0 0 auto;
+}
+
+.perm-info {
+  flex: 1 1 auto;
+  text-align: left;
+  min-width: 0;
+}
+
+.perm-title {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.perm-desc {
+  font-size: var(--fs-label);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.perm-toggle {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 26px;
+  border-radius: var(--r-pill);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s var(--ease-emphasized);
+  background: var(--color-surface-4);
+}
+
+.perm-toggle--on {
+  background: var(--color-primary);
+}
+
+.perm-toggle::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-text);
+  transition: transform 0.2s var(--ease-emphasized);
+}
+
+.perm-toggle--on::after {
+  transform: translateX(18px);
+  background: var(--color-primary-fg);
+}
+
+/* ---- Summary stats ---- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-3);
+  width: 100%;
+  max-width: 300px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--sp-4) var(--sp-3);
+  border-radius: var(--r-md);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-surface-4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18),
+              inset 0 1px 0 color-mix(in srgb, var(--color-bg) 8%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle top-edge highlight using the primary color */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  opacity: 0.6;
+}
+
+.stat-value {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: var(--sp-1);
+}
+
+/* Stat value entrance animation — scale up + count-up feel */
+@keyframes statValueIn {
+  0% { opacity: 0; transform: scale(0.4); }
+  70% { opacity: 1; transform: scale(1.12); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.stat-value--anim {
+  animation: statValueIn 0.7s var(--ease-emphasized-decel) both;
+}
+
+/* ---- Folder/backup mock cards ---- */
+.mock-card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--color-surface-2);
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid var(--color-surface-4);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18),
+              inset 0 1px 0 color-mix(in srgb, var(--color-bg) 6%, transparent);
+}
+
+.mock-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-sm);
+  background: var(--color-primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-on-primary-container);
+  flex: 0 0 auto;
+}
+
+.mock-info {
+  flex: 1 1 auto;
+  text-align: left;
+  min-width: 0;
+}
+
+.mock-title {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mock-desc {
+  font-size: var(--fs-label);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ---- Checkmark animation ---- */
+@keyframes checkmarkDraw {
+  from { stroke-dashoffset: 50; }
+  to { stroke-dashoffset: 0; }
+}
+
+.checkmark-circle {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: checkmarkDraw 0.6s var(--ease-emphasized-decel) 0.2s forwards;
+}
+
+.checkmark-check {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: checkmarkDraw 0.4s var(--ease-emphasized-decel) 0.6s forwards;
+}
+
+/* ---- Confetti / celebration ---- */
+@keyframes confettiFall {
+  0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
+}
+
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confettiFall 2s ease-in forwards;
+}
+
+/* ---- Staggered card entry ---- */
+@keyframes cardEntry {
+  from { opacity: 0; transform: translateY(12px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---- Scanning / loading state (folder auto-advance, restore auto-advance) ---- */
+.scanning-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: var(--color-primary);
+  font-size: var(--fs-body-s);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.scanning-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.scanning-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: bounceDot 1.4s ease-in-out infinite;
+}
+
+.scanning-dots span:nth-child(2) { animation-delay: 0.2s; }
+.scanning-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ---- Finish screen accents ---- */
+.finish-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--color-primary) 16%, transparent);
+  color: var(--color-primary);
+  font-size: var(--fs-label);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---- Shimmer (loading) ---- */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-surface-3) 50%, var(--color-surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

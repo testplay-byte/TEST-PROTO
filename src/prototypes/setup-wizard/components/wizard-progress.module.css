@@ -1,0 +1,45 @@
+/* WizardProgress — animated progress bar at the top of the device screen.
+   Now positioned in the flex flow (between status bar and screen) instead
+   of absolutely-positioned inside the screen. This prevents any overlap
+   with the status bar on mobile. */
+
+.progressContainer {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 6px 16px 4px;
+  background: var(--color-bg);
+  z-index: 3;
+}
+
+.progressTrack {
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: var(--color-surface-3);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  transition: width 0.5s var(--ease-emphasized-decel);
+  box-shadow: 0 0 8px color-mix(in srgb, currentColor 40%, transparent);
+}
+
+.stepDots {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 0 2px;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-surface-4);
+  transition: background 0.3s var(--ease-standard), transform 0.3s var(--ease-emphasized);
+}
+
+.dotActive {
+  transform: scale(1.3);
+}

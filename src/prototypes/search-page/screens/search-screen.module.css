@@ -1,0 +1,400 @@
+/* SearchScreen — view layout + topbar + chips + quick row + content.
+   Component-specific styles (source-toggle, searchbar, anime-card,
+   filter-sheet, sort-dropdown, recent-searches) live in their own modules.
+   Collapsed-state animations for source-toggle/searchbar use :global so
+   the parent module can target them when the topbar collapses. */
+
+.view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ---- Top bar (collapses on scroll) ---- */
+.topbar {
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  flex: 0 0 auto;
+  background: var(--color-bg);
+  transition:
+    padding var(--dur-3) var(--ease-emphasized),
+    gap var(--dur-3) var(--ease-emphasized),
+    max-height var(--dur-3) var(--ease-emphasized);
+  max-height: 220px;
+  overflow: hidden;
+}
+
+.topbarRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  transition: gap var(--dur-3) var(--ease-emphasized);
+}
+
+.topbarTitle {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  transition: font-size var(--dur-3) var(--ease-emphasized);
+}
+
+/* Collapsed state */
+.topbarIsCollapsed {
+  padding-top: var(--sp-2);
+  padding-bottom: var(--sp-1);
+  gap: var(--sp-1);
+  max-height: 56px;
+}
+
+.topbarIsCollapsed .topbarRow {
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+.topbarIsCollapsed .topbarTitle {
+  font-size: var(--fs-h2);
+  flex: 0 0 auto;
+  margin-right: var(--sp-1);
+}
+
+/* Source toggle hides when collapsed */
+.topbarIsCollapsed :global(.sourceToggle) {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  width: 0;
+  overflow: hidden;
+  margin-left: 0;
+}
+
+/* Searchbar shrinks + moves beside title */
+.topbarIsCollapsed :global(.searchbar) {
+  height: 44px;
+  flex: 1 1 auto;
+  transition: all var(--dur-3) var(--ease-emphasized);
+}
+
+.topbarIsCollapsed :global(.searchbar) :global(.searchbar__input) {
+  font-size: var(--fs-body);
+}
+
+/* ---- Active filter chips ---- */
+.activeFilters {
+  display: flex;
+  gap: var(--sp-2);
+  overflow-x: auto;
+  padding: 0 var(--sp-4);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-height: 0;
+  overflow-y: hidden;
+  transition: max-height var(--dur-3) var(--ease-emphasized);
+}
+
+.activeFiltersHasChips {
+  max-height: 44px;
+  padding-bottom: var(--sp-2);
+}
+
+.activeFilters::-webkit-scrollbar {
+  display: none;
+}
+
+.activeFilterChip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 6px 6px 14px;
+  border-radius: var(--r-pill);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  border: none;
+  animation: chipIn var(--dur-3) var(--ease-emphasized-decel);
+}
+
+.activeFilterChipX {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--color-on-primary-container) 15%, transparent);
+}
+
+@keyframes chipIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---- Quick row (Filters + Sort) — slides out when collapsed ---- */
+.quickRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-3) var(--sp-2);
+  flex: 0 0 auto;
+  transition:
+    opacity var(--dur-3) var(--ease-standard),
+    max-height var(--dur-3) var(--ease-emphasized),
+    padding var(--dur-3) var(--ease-emphasized);
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.quickRowIsCollapsed {
+  opacity: 0;
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 18px 10px 14px;
+  border-radius: var(--r-pill);
+  border: none;
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-size: var(--fs-body-s);
+  font-weight: 600;
+  transition: all var(--dur-2) var(--ease-standard);
+  flex: 0 0 auto;
+}
+
+.filterBtn:hover {
+  background: var(--color-surface-3);
+}
+
+.filterBtnIsActive {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.filterBadge {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: var(--r-pill);
+  min-width: 18px;
+  text-align: center;
+}
+
+.filterBtnIsActive .filterBadge {
+  background: var(--color-on-primary-container);
+  color: var(--color-primary-container);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sortWrap {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.sortBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--color-outline-variant);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  transition: all var(--dur-2) var(--ease-standard);
+  flex: 0 0 auto;
+}
+
+.sortBtn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+.sortBtn svg {
+  transition: transform var(--dur-2) var(--ease-emphasized);
+}
+
+.sortBtnIsOpen svg {
+  transform: rotate(180deg);
+}
+
+/* ---- Content area ---- */
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--sp-2) var(--sp-1) 110px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Blur + darkening gradient overlay — only visible when topbar is collapsed */
+.content::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--color-bg) 0%,
+    color-mix(in srgb, var(--color-bg) 80%, transparent) 25%,
+    color-mix(in srgb, var(--color-bg) 40%, transparent) 60%,
+    transparent 100%
+  );
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-standard);
+}
+
+.contentIsCollapsed::after {
+  opacity: 1;
+}
+
+.resultsTray {
+  background: var(--color-surface-1);
+  border-radius: var(--r-lg);
+  padding: var(--sp-2) var(--sp-3);
+  margin: 0 0 var(--sp-2);
+}
+
+.contentHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: var(--sp-3) 0 var(--sp-3);
+}
+
+.contentLabel {
+  font-size: var(--fs-body-l);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.005em;
+}
+
+.contentCount {
+  font-size: var(--fs-label);
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+/* ---- Results grid ---- */
+.resultsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3) var(--sp-2);
+}
+
+/* ---- Skeleton loading ---- */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    var(--color-surface-3) 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: var(--r-sm);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ---- Empty state ---- */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: var(--sp-10) var(--sp-6);
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+.emptyStateIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+}
+
+.emptyStateTitle {
+  margin: 0;
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.emptyStateDesc {
+  margin: 0;
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+  max-width: 30ch;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar,
+  .topbarRow,
+  .topbarTitle,
+  .activeFilters,
+  .quickRow,
+  .filterBtn,
+  .sortBtn,
+  .content::after {
+    transition: none !important;
+  }
+  .activeFilterChip,
+  .skeleton {
+    animation: none !important;
+  }
+}

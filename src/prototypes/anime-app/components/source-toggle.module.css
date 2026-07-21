@@ -1,0 +1,40 @@
+/* SourceToggle — segmented AniList/Extension pill.
+   Collapsed-state animations (opacity/width shrink on scroll) are owned
+   by the parent search-screen module via a :global selector. */
+
+.sourceToggle {
+  display: flex;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--r-pill);
+  padding: 2px;
+  gap: 0;
+  flex: 0 0 auto;
+  /* Push to the right edge of the topbar row — title on left, toggle on right */
+  margin-left: auto;
+  transition:
+    opacity var(--dur-3) var(--ease-emphasized),
+    transform var(--dur-3) var(--ease-emphasized),
+    width var(--dur-3) var(--ease-emphasized),
+    margin var(--dur-3) var(--ease-emphasized);
+  overflow: hidden;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition:
+    background var(--dur-2) var(--ease-emphasized),
+    color var(--dur-2) var(--ease-emphasized);
+  white-space: nowrap;
+}
+
+.btnIsActive {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}

@@ -1,0 +1,186 @@
+/* LibraryCustomizeSheet — bottom sheet for library display options.
+   No dismiss handle — user taps the scrim to close.
+   Organized into labeled sections. */
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 50;
+  transition: opacity var(--dur-3) var(--ease-standard);
+}
+
+.scrimIsOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 51;
+  background: var(--color-surface-4);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  padding: var(--sp-4) var(--sp-4) var(--sp-4);
+  transform: translateY(100%);
+  transition: transform var(--dur-4) var(--ease-emphasized-decel);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
+  max-height: 85%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheetIsOpen {
+  transform: translateY(0);
+}
+
+.header {
+  flex: 0 0 auto;
+  margin-bottom: var(--sp-4);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-bottom: var(--sp-2);
+}
+
+.body::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Section ---- */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.sectionLabel {
+  font-size: var(--fs-label-s);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+/* ---- Segmented control ---- */
+.segmented {
+  display: flex;
+  gap: 4px;
+  background: var(--color-surface-2);
+  border-radius: var(--r-md);
+  padding: 4px;
+}
+
+.segBtn {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px var(--sp-2);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-body-s);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background var(--dur-2) var(--ease-emphasized),
+    color var(--dur-2) var(--ease-emphasized);
+  white-space: nowrap;
+}
+
+.segBtnIsActive {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+/* ---- Toggle row ---- */
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-2) 0;
+}
+
+.toggleRow + .toggleRow {
+  border-top: 1px solid var(--color-surface-5);
+}
+
+.toggleLabel {
+  font-size: var(--fs-body-s);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.toggle {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 26px;
+  border-radius: var(--r-pill);
+  background: var(--color-surface-5);
+  position: relative;
+  cursor: pointer;
+  transition: background var(--dur-2) var(--ease-emphasized);
+  padding: 0;
+}
+
+.toggleIsOn {
+  background: var(--color-primary);
+}
+
+.toggleKnob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-text);
+  transition: transform var(--dur-2) var(--ease-emphasized),
+    background var(--dur-2) var(--ease-standard);
+}
+
+.toggleIsOn .toggleKnob {
+  transform: translateX(18px);
+  background: var(--color-primary-fg);
+}
+
+/* ---- Actions ---- */
+.actions {
+  flex: 0 0 auto;
+  padding-top: var(--sp-4);
+}
+
+.doneBtn {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--r-pill);
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  font-size: var(--fs-body-l);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--dur-1) var(--ease-emphasized);
+}
+
+.doneBtn:active {
+  transform: scale(0.97);
+}

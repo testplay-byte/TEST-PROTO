@@ -1,0 +1,60 @@
+/* SearchBar — pill input with magnifier + clear button.
+   Collapsed-state animations are owned by the parent search-screen module. */
+
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  background: var(--color-surface-1);
+  border-radius: var(--r-pill);
+  padding: 0 var(--sp-2) 0 var(--sp-4);
+  height: 52px;
+  border: none;
+  flex: 1 1 100%;
+  transition: all var(--dur-3) var(--ease-emphasized);
+}
+
+.searchbar:focus-within {
+  background: var(--color-surface-3);
+}
+
+.icon {
+  color: var(--color-text-muted);
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  flex: 1 1 auto;
+  border: none;
+  outline: none;
+  background: none;
+  color: var(--color-text);
+  font-size: var(--fs-body-l);
+  font-weight: 400;
+  min-width: 0;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.clear {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  flex: 0 0 auto;
+  transition:
+    background var(--dur-1) var(--ease-standard),
+    color var(--dur-1) var(--ease-standard);
+}
+
+.clear:hover {
+  background: var(--color-surface-3);
+  color: var(--color-text);
+}

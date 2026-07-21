@@ -1,0 +1,185 @@
+/* proto-kit / device-frame — the phone mockup.
+   Bezel color + width are token-driven (see tokens.css), so the frame
+   inverts by theme automatically. */
+
+.device {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  background: var(--color-bg);
+  border-radius: 32px;
+  box-shadow:
+    0 0 0 var(--bezel-w) var(--device-bezel),
+    0 0 0 var(--edge-w) var(--device-edge),
+    0 24px 60px -16px var(--frame-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Smooth frame + surface color transitions when toggling theme */
+  transition:
+    background var(--dur-3) var(--ease-standard),
+    box-shadow var(--dur-3) var(--ease-standard);
+}
+
+/* Fullscreen (mobile) — fill viewport, no frame */
+@media (max-width: 480px) {
+  .device {
+    width: 100%;
+    height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* ---- Status bar ---- */
+.statusbar {
+  position: relative;
+  height: 36px;
+  padding: 0 18px;
+  /* On mobile (fullscreen), respect the safe-area inset (notch / Dynamic Island)
+     so the time + icons are never covered by the OS or the progress bar. */
+  padding-top: env(safe-area-inset-top, 0px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  z-index: 30;
+}
+.statusbar__time {
+  font-variant-numeric: tabular-nums;
+}
+.statusbar__punchhole {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #2b2b30 0%, #060608 70%);
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+.statusbar__icons {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+.statusbar__icons .ic {
+  display: block;
+}
+.battery {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  font-weight: 600;
+}
+.battery__pct {
+  line-height: 1;
+}
+.battery .icBatt {
+  color: var(--color-text);
+}
+.battery__fill {
+  fill: var(--color-text);
+}
+
+/* ---- Screen + view slots ---- */
+.screen {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+}
+
+/* ---- Fullscreen button ----
+   Floating, bottom-right of the device, above the bottom nav.
+   Uses the real Fullscreen API (requestFullscreen on the .device element).
+   Mobile-only: on PC there's no need for fullscreen (the user already has
+   a big screen). On mobile it gives a native-app full-screen experience.
+   When the device IS in fullscreen mode, the button completely disappears
+   (the user exits via the system back button/gesture).
+   Part of every prototype via DeviceFrame. */
+.fsToggle {
+  position: absolute;
+  bottom: calc(16px + 58px + 12px); /* nav bar height (58) + nav offset (16) + gap (12) */
+  right: 12px;
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4),
+    0 0 0 1px color-mix(in srgb, var(--color-primary) 40%, transparent);
+  transition: opacity var(--dur-2) var(--ease-standard),
+    background var(--dur-2) var(--ease-standard),
+    transform var(--dur-1) var(--ease-emphasized);
+}
+
+.fsToggle:hover {
+  background: color-mix(in srgb, var(--color-primary) 85%, white);
+}
+
+.fsToggle:active {
+  transform: scale(0.9);
+}
+
+/* Hide on desktop — fullscreen is only useful on mobile. */
+@media (min-width: 481px) {
+  .fsToggle {
+    display: none;
+  }
+}
+
+/* When the device is in fullscreen mode, the button completely disappears.
+   The user exits fullscreen via the system back button/gesture (mobile). */
+.device:fullscreen .fsToggle,
+.device:-webkit-full-screen .fsToggle {
+  display: none;
+}
+
+/* ---- Image drag prevention ----
+   Prevents the browser's native image ghost-drag behavior so the swipe
+   simulation doesn't accidentally drag images out of the device. */
+.device img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* ---- Swipe gestures (proto-kit, permanent) ----
+   Cursor: grab on content/list areas, grabbing during drag.
+   Text selection + image ghost-drag are prevented during drag.
+   Every prototype gets this via DeviceFrame + the useSwipeSimulation hook. */
+.device :global([class*="content"]),
+.device :global([class*="list"]) {
+  cursor: grab;
+}
+.device[data-swipe-grabbing] :global([class*="content"]),
+.device[data-swipe-grabbing] :global([class*="list"]) {
+  cursor: grabbing;
+}
+.device[data-swipe-grabbing] {
+  user-select: none;
+  -webkit-user-select: none;
+}
+.device[data-swipe-grabbing] img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
+}

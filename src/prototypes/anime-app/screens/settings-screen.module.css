@@ -1,0 +1,251 @@
+/* SettingsScreen — appearance + display + animations + data + about. */
+
+.topbar {
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  flex: 0 0 auto;
+  background: var(--color-bg);
+  transition: padding var(--dur-3) var(--ease-emphasized);
+}
+
+.topbarTitle {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--color-text);
+  transition: font-size var(--dur-3) var(--ease-emphasized);
+}
+
+/* Collapsed state — title shrinks when content is scrolled */
+.topbarIsCollapsed {
+  padding-top: var(--sp-1);
+  padding-bottom: 2px;
+}
+
+.topbarIsCollapsed .topbarTitle {
+  font-size: var(--fs-h2);
+}
+
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--sp-2) var(--sp-3) 110px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+.group {
+  margin-bottom: var(--sp-5);
+}
+
+.groupLabel {
+  font-size: var(--fs-label-s);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  margin-bottom: var(--sp-2);
+  padding: 0 var(--sp-1);
+}
+
+.card {
+  background: var(--color-surface-2);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-4);
+}
+
+.rowStatic {
+  cursor: default;
+}
+
+.rowBtn {
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease-standard);
+  width: 100%;
+  text-align: left;
+  border: none;
+}
+
+.rowBtn:active {
+  background: var(--color-surface-3);
+}
+
+.rowInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rowTitle {
+  font-size: var(--fs-body-l);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.rowDesc {
+  font-size: var(--fs-label);
+  color: var(--color-text-muted);
+}
+
+.rowValue {
+  font-size: var(--fs-body-s);
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+/* ---- Select ---- */
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--color-surface-3);
+  color: var(--color-text);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--r-sm);
+  padding: 10px 32px 10px 14px;
+  font-size: var(--fs-body-s);
+  font-weight: 500;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a89ec0' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+  transition: border-color var(--dur-1) var(--ease-standard);
+}
+
+.select:hover,
+.select:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+/* ---- Toggle (M3 switch) ---- */
+.toggle {
+  width: 44px;
+  height: 26px;
+  border-radius: var(--r-pill);
+  background: var(--color-surface-4);
+  border: 1px solid var(--color-outline-variant);
+  position: relative;
+  flex: 0 0 auto;
+  transition: background var(--dur-2) var(--ease-emphasized);
+  cursor: pointer;
+}
+
+.toggleKnob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+  transition:
+    transform var(--dur-2) var(--ease-emphasized),
+    background var(--dur-2) var(--ease-emphasized);
+}
+
+.toggleIsOn {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.toggleIsOn .toggleKnob {
+  transform: translateX(18px);
+  background: var(--color-primary-fg);
+}
+
+/* ---- Theme toggle (segmented buttons) ---- */
+.themeToggle {
+  display: flex;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--r-pill);
+  padding: 2px;
+  gap: 0;
+  flex: 0 0 auto;
+}
+
+.themeToggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition:
+    background var(--dur-2) var(--ease-emphasized),
+    color var(--dur-2) var(--ease-emphasized);
+  white-space: nowrap;
+}
+
+.themeToggleBtnIsActive {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rowBtn,
+  .toggle,
+  .toggleKnob,
+  .themeToggleBtn,
+  .select {
+    transition: none !important;
+  }
+}
+
+/* ---- Stacked row (for visual selectors that need full width) ---- */
+.rowStacked {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--color-surface-3);
+}
+
+.rowStacked:last-child {
+  border-bottom: none;
+}
+
+/* ---- Text-only selector (poster style + card density) ----
+   A simple segmented control: pill buttons with text labels.
+   Active option gets primary background. */
+.textSelector {
+  display: flex;
+  gap: 0;
+  background: var(--color-surface-2);
+  border-radius: var(--r-md);
+  padding: 4px;
+}
+
+.textOption {
+  flex: 1 1 0;
+  padding: 10px var(--sp-2);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-body-s);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-align: center;
+  transition: background var(--dur-2) var(--ease-emphasized),
+    color var(--dur-2) var(--ease-emphasized);
+}
+
+.textOptionIsActive {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}

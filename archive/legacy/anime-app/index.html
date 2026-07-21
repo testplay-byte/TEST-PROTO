@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Anime App — ANDROID-PROTOTYPE</title>
+  <link rel="stylesheet" href="./styles.css?v=23" />
+</head>
+<body>
+
+  <div class="stage">
+
+    <!-- ============ LEFT INFO PANEL ============ -->
+    <aside class="sidepanel sidepanel--left" aria-label="Prototype info">
+      <span class="sidepanel__badge">prototype</span>
+      <h2 class="sidepanel__title">Anime App</h2>
+      <p class="sidepanel__desc">Material 3 Expressive anime app with Home, Library, History, Search, Settings, and Detail pages. Real AniList data. Add to library functionality.</p>
+      <div class="tags">
+        <span class="tag">Material 3</span><span class="tag">AniList</span><span class="tag">v3</span>
+      </div>
+    </aside>
+
+    <!-- ============ DEVICE ============ -->
+    <div class="device" id="device" data-theme="dark">
+
+      <!-- Status bar -->
+      <div class="statusbar">
+        <span class="statusbar__time" id="clock">9:41</span>
+        <div class="statusbar__punchhole" aria-hidden="true"></div>
+        <span class="statusbar__icons" aria-hidden="true">
+          <svg class="ic ic-wifi" width="15" height="11" viewBox="0 0 15 11" fill="currentColor"><path d="M7.5 0.5C4.6 0.5 1.9 1.6 0 3.3l1.2 1.2A8.8 8.8 0 0 1 7.5 2c2.3 0 4.4.8 6 2.2L14.7 3A11.5 11.5 0 0 0 7.5.5z" opacity="0.3"/><path d="M7.5 3.8c-1.8 0-3.4.7-4.6 1.8l1.2 1.2A4.7 4.7 0 0 1 7.5 5.3c1.2 0 2.3.4 3.2 1.2l1.2-1.2A6.5 6.5 0 0 0 7.5 3.8z"/><path d="M7.5 7.2c-.8 0-1.5.3-2 .8L7.5 11l2-2.5c-.5-.5-1.2-.8-2-.8z"/></svg>
+          <svg class="ic ic-signal" width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><rect x="0" y="8" width="3" height="3" rx="0.5"/><rect x="4.5" y="6" width="3" height="5" rx="0.5"/><rect x="9" y="3.5" width="3" height="7.5" rx="0.5" opacity="0.3"/><rect x="13.5" y="1" width="3" height="10" rx="0.5" opacity="0.3"/></svg>
+          <span class="battery">
+            <svg class="ic ic-batt" width="8" height="16" viewBox="0 0 8 16" fill="none"><rect x="2.5" y="0" width="3" height="1.5" rx="0.75" fill="currentColor" opacity="0.5"/><rect x="0.5" y="1.5" width="7" height="14" rx="2" stroke="currentColor" stroke-width="0.9" stroke-opacity="0.6"/><rect class="battery__fill" id="battFill" x="1.5" y="3" width="5" height="11" rx="0.8" fill="currentColor"/></svg>
+            <span class="battery__pct"><span id="battPct">87</span>%</span>
+          </span>
+        </span>
+      </div>
+
+      <main class="screen" id="screen">
+
+        <!-- ===== HOME VIEW ===== -->
+        <section class="view view--active" data-view="home" aria-label="Home">
+          <div class="topbar">
+            <h1 class="topbar__title">Anime</h1>
+          </div>
+          <div class="content">
+            <!-- Hero / Trending (populated by JS) -->
+            <div id="homeTrending"></div>
+
+            <!-- Popular This Season -->
+            <div class="tray tray--results">
+              <div class="content__header">
+                <span class="content__label">Popular This Season</span>
+              </div>
+              <div id="homeSeasonal" class="results-grid"></div>
+            </div>
+
+            <!-- Top Rated -->
+            <div class="tray tray--results">
+              <div class="content__header">
+                <span class="content__label">Top Rated</span>
+              </div>
+              <div id="homeTopRated" class="results-grid grid--3"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== SEARCH VIEW ===== -->
+        <section class="view" data-view="search" aria-label="Search">
+
+          <!-- Top bar: title + source toggle + search bar (collapses on scroll) -->
+          <div class="topbar">
+            <div class="topbar__row">
+              <h1 class="topbar__title">Search</h1>
+              <div class="source-toggle" id="sourceToggle">
+                <button class="source-toggle__btn is-active" data-source="anilist">
+                  <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                  <span>AniList</span>
+                </button>
+                <button class="source-toggle__btn" data-source="extension">
+                  <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                  <span>Extension</span>
+                </button>
+              </div>
+              <!-- Search bar — in the same row so it can move next to title when collapsed -->
+              <div class="searchbar" id="searchbar">
+                <span class="searchbar__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </span>
+                <input type="text" id="searchInput" placeholder="Search anime by title..." />
+                <button class="searchbar__clear" id="searchClear" style="display:none" aria-label="Clear">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active filter chips (only shown when filters are active) -->
+          <div class="active-filters" id="activeFilters"></div>
+
+          <!-- Filters + Sort tray (slides out on collapse) -->
+          <div class="quick-row">
+            <button class="filter-btn" id="filterBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+              <span>Filters</span>
+              <span class="filter-btn__badge" id="filterBadge" style="display:none">0</span>
+            </button>
+            <div class="quick-row__spacer"></div>
+            <button class="sort-btn" id="sortBtn">
+              <span id="sortLabel">Popularity</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+          </div>
+
+          <!-- Results content -->
+          <div class="content">
+            <!-- Recent searches (shown when no query and no filters) -->
+            <div class="recent-section tray tray--recent" id="recentSection" style="display:none">
+              <div class="recent-head">
+                <div class="recent-head__left">
+                  <span class="recent-title">Recent searches</span>
+                  <button class="recent-toggle" id="recentToggle" aria-label="Toggle recent searches">
+                    <span class="recent-toggle__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+                  </button>
+                </div>
+                <div class="recent-head__right" id="recentHeadRight"></div>
+              </div>
+              <div class="recent-list" id="recentList"></div>
+            </div>
+
+            <div class="tray tray--results">
+              <div class="content__header">
+                <span class="content__label" id="resultsLabel">Popular anime</span>
+                <span class="content__count" id="resultsCount"></span>
+              </div>
+              <div class="results-grid" id="resultsGrid"></div>
+            </div>
+          </div>
+
+          <!-- ===== FILTER BOTTOM SHEET (accordion + flat toggle, Clear all) ===== -->
+          <div class="sheet-scrim" id="sheetScrim"></div>
+          <div class="filter-sheet" id="filterSheet">
+            <div class="filter-sheet__header">
+              <div class="filter-sheet__header-left">
+                <h2 class="filter-sheet__title">Filters</h2>
+              </div>
+              <div class="filter-view-toggle" id="filterViewToggle">
+                <button class="filter-view-toggle__btn is-active" data-view-mode="accordion" aria-label="Accordion view">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/></svg>
+                </button>
+                <button class="filter-view-toggle__btn" data-view-mode="flat" aria-label="Flat view">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="filter-sheet__body" id="filterSheetBody">
+              <!-- Accordion items generated by JS -->
+            </div>
+            <div class="filter-sheet__actions">
+              <button class="btn-outlined" id="clearAllFilters">Clear all</button>
+              <button class="btn-filled" id="applyFilters">Apply filters</button>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ===== LIBRARY VIEW ===== -->
+        <section class="view" data-view="library" aria-label="Library">
+          <div class="topbar">
+            <h1 class="topbar__title">Library</h1>
+          </div>
+          <div class="content">
+            <div class="tray tray--results">
+              <div class="tabs" id="libraryTabs">
+                <button class="tab is-active" data-status="all">All</button>
+                <button class="tab" data-status="watching">Watching</button>
+                <button class="tab" data-status="completed">Completed</button>
+                <button class="tab" data-status="plan">Plan to Watch</button>
+              </div>
+              <div id="libraryContent"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== HISTORY VIEW ===== -->
+        <section class="view" data-view="history" aria-label="History">
+          <div class="topbar">
+            <h1 class="topbar__title">History</h1>
+          </div>
+          <div class="content">
+            <div class="tray tray--results">
+              <div id="historyContent"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== DETAIL VIEW (pushed view — no topbar, no bottom nav) ===== -->
+        <section class="view" data-view="detail" aria-label="Anime detail">
+          <div class="content">
+            <div id="detailContent"></div>
+          </div>
+        </section>
+
+        <!-- ===== SETTINGS VIEW ===== -->
+        <section class="view" data-view="settings" aria-label="Settings">
+          <div class="topbar">
+            <h1 class="topbar__title">Settings</h1>
+          </div>
+          <div class="content">
+            <div class="settings-group">
+              <div class="settings-group__label">Appearance</div>
+              <div class="settings-card">
+                <div class="setting-row">
+                  <div class="setting-row__info">
+                    <span class="setting-row__title">Theme</span>
+                    <span class="setting-row__desc">Switch between dark and light mode</span>
+                  </div>
+                  <div class="theme-toggle" id="themeToggle">
+                    <button class="theme-toggle__btn is-active" data-theme-val="dark">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                      <span>Dark</span>
+                    </button>
+                    <button class="theme-toggle__btn" data-theme-val="light">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                      <span>Light</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="settings-group">
+              <div class="settings-group__label">Display</div>
+              <div class="settings-card">
+                <div class="setting-row">
+                  <div class="setting-row__info">
+                    <span class="setting-row__title">Single-line titles</span>
+                    <span class="setting-row__desc">Show anime titles on one line (truncate with ellipsis)</span>
+                  </div>
+                  <button class="toggle is-on" id="settingSingleLine" data-app-setting="singleLineTitles" aria-label="Toggle single-line titles"><span class="toggle__knob"></span></button>
+                </div>
+                <div class="setting-row">
+                  <div class="setting-row__info">
+                    <span class="setting-row__title">Poster style</span>
+                    <span class="setting-row__desc">Cover image border radius</span>
+                  </div>
+                  <select class="select" id="settingPosterStyle">
+                    <option value="rounded">Rounded</option>
+                    <option value="sharp">Sharp</option>
+                    <option value="circle">Circle</option>
+                  </select>
+                </div>
+                <div class="setting-row">
+                  <div class="setting-row__info">
+                    <span class="setting-row__title">Card density</span>
+                    <span class="setting-row__desc">Spacing between cards</span>
+                  </div>
+                  <select class="select" id="settingCardDensity">
+                    <option value="default">Default</option>
+                    <option value="compact">Compact</option>
+                    <option value="comfortable">Comfortable</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="settings-group">
+              <div class="settings-group__label">Animations</div>
+              <div class="settings-card">
+                <div class="setting-row">
+                  <div class="setting-row__info">
+                    <span class="setting-row__title">Animation speed</span>
+                    <span class="setting-row__desc">Speed of transitions and effects</span>
+                  </div>
+                  <select class="select" id="settingAnimSpeed">
+                    <option value="fast">Fast</option>
+                    <option value="normal">Normal</option>
+                    <option value="slow">Slow</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="settings-group">
+              <div class="settings-group__label">Data</div>
+              <div class="settings-card">
+                <button class="setting-row setting-row--btn" id="clearHistoryBtn">
+                  <div class="setting-row__info">
+                    <span class="setting-row__title">Clear history</span>
+                    <span class="setting-row__desc">Remove all recently viewed anime</span>
+                  </div>
+                  <span class="setting-row__value">→</span>
+                </button>
+                <button class="setting-row setting-row--btn" id="clearLibraryBtn">
+                  <div class="setting-row__info">
+                    <span class="setting-row__title">Clear library</span>
+                    <span class="setting-row__desc">Remove all saved anime</span>
+                  </div>
+                  <span class="setting-row__value">→</span>
+                </button>
+              </div>
+            </div>
+            <div class="settings-group">
+              <div class="settings-group__label">About</div>
+              <div class="settings-card">
+                <div class="setting-row setting-row--static">
+                  <div class="setting-row__info">
+                    <span class="setting-row__title">Anime App</span>
+                    <span class="setting-row__desc">v2.0 · Material 3 Expressive · AniList API</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bottom navigation (FLOATING — rounded, padded, text beside icon) -->
+        <nav class="bottomnav" aria-label="Primary">
+          <button class="bottomnav__item is-active" data-nav="home">
+            <svg class="bottomnav__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+            <span class="bottomnav__label">Home</span>
+          </button>
+          <button class="bottomnav__item" data-nav="library">
+            <svg class="bottomnav__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span class="bottomnav__label">Library</span>
+          </button>
+          <button class="bottomnav__item" data-nav="history">
+            <svg class="bottomnav__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+            <span class="bottomnav__label">History</span>
+          </button>
+          <button class="bottomnav__item" data-nav="search">
+            <svg class="bottomnav__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <span class="bottomnav__label">Search</span>
+          </button>
+          <button class="bottomnav__item" data-nav="settings">
+            <svg class="bottomnav__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span class="bottomnav__label">Settings</span>
+          </button>
+        </nav>
+
+      </main>
+    </div>
+
+    <!-- ============ RIGHT INFO PANEL ============ -->
+    <aside class="sidepanel sidepanel--right" aria-label="Screen info">
+      <h3 class="sidepanel__head">Screen info</h3>
+      <div class="screeninfo">
+        <span class="screeninfo__name">Home</span>
+        <span class="screeninfo__desc">Browse trending, seasonal, and top-rated anime.</span>
+      </div>
+      <h3 class="sidepanel__head">Filters</h3>
+      <div class="mini-bars">
+        <div class="mini-bar-row"><span class="mini-bar-label">Genres</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:100%;background:var(--color-primary)"></div></div><span class="mini-bar-num">16</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Year</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:90%;background:var(--color-tertiary)"></div></div><span class="mini-bar-num">35</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Season</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:40%;background:var(--color-secondary)"></div></div><span class="mini-bar-num">4</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Format</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:60%;background:var(--color-success)"></div></div><span class="mini-bar-num">6</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Status</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:50%;background:var(--color-warn)"></div></div><span class="mini-bar-num">4</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Score</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:75%;background:var(--color-error)"></div></div><span class="mini-bar-num">slider</span></div>
+        <div class="mini-bar-row"><span class="mini-bar-label">Sort</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:55%;background:var(--color-primary)"></div></div><span class="mini-bar-num">5</span></div>
+      </div>
+      <h3 class="sidepanel__head">Design</h3>
+      <div class="kvlist">
+        <div class="kvlist__row"><span>Theme</span><b>M3 Expressive</b></div>
+        <div class="kvlist__row"><span>Elevation</span><b>Tonal</b></div>
+        <div class="kvlist__row"><span>Primary</span><b>#d0bcff</b></div>
+      </div>
+    </aside>
+
+  </div>
+
+  <button class="fs-toggle" id="fsToggle" aria-label="Toggle fullscreen">
+    <svg id="fsIconExpand" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V5a2 2 0 0 1 2-2h4M21 9V5a2 2 0 0 0-2-2h-4M3 15v4a2 2 0 0 0 2 2h4M21 15v4a2 2 0 0 1-2 2h-4"/></svg>
+    <svg id="fsIconShrink" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M9 3v4a2 2 0 0 1-2 2H3M15 3v4a2 2 0 0 0 2 2h4M9 21v-4a2 2 0 0 0-2-2H3M15 21v-4a2 2 0 0 1 2-2h4"/></svg>
+  </button>
+
+  <script src="./script.js?v=23"></script>
+</body>
+</html>

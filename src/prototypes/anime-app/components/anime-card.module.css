@@ -1,0 +1,145 @@
+/* AnimeCard — result tile in the 3-column grid.
+   The cover border-radius is driven by `.device[data-poster-style]` rules
+   in anime-app.css (rounded/sharp/circle); the base value here is
+   var(--r-sm) so it matches the "rounded" default. */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform var(--dur-1) var(--ease-emphasized);
+  animation: cardFadeIn var(--dur-4) var(--ease-emphasized-decel) backwards;
+  /* min-width: 0 lets the card shrink in a grid column (prevents overflow
+     + uneven columns when cover images have large intrinsic widths). */
+  min-width: 0;
+}
+
+.card:active {
+  transform: scale(0.96);
+}
+
+.cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--cover-aspect, 2 / 3);
+  border-radius: var(--cover-radius, var(--r-sm));
+  overflow: hidden;
+  background: var(--color-surface-2);
+  transition: border-radius var(--dur-2) var(--ease-standard),
+    aspect-ratio var(--dur-3) var(--ease-standard);
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-4) var(--ease-emphasized-decel);
+}
+
+.card:active .cover img {
+  transform: scale(1.1);
+}
+
+.score {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 6px;
+  padding: 3px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-warn);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  letter-spacing: 0.01em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.star {
+  font-size: 9px;
+}
+
+.title {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--color-text);
+  letter-spacing: -0.005em;
+}
+
+.titleSingle {
+  -webkit-line-clamp: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: var(--fs-label-s);
+  font-weight: 500;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.01em;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+}
+
+/* ---- Episode badge (library grid only, position-driven) ---- */
+.epBadge {
+  position: absolute;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.65);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  padding: 3px 7px;
+  border-radius: var(--r-pill);
+  letter-spacing: 0.02em;
+  z-index: 2;
+}
+
+.epBadge_top_left {
+  top: 6px;
+  left: 6px;
+}
+
+.epBadge_top_right {
+  top: 6px;
+  right: 6px;
+}
+
+.epBadge_bottom_left {
+  bottom: 6px;
+  left: 6px;
+}
+
+.epBadge_bottom_right {
+  bottom: 6px;
+  right: 6px;
+}

@@ -1,0 +1,116 @@
+/* SettingsScreen — theme toggle + about card. */
+
+.view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.topbar {
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  flex: 0 0 auto;
+  background: var(--color-bg);
+}
+
+.topbarTitle {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--sp-2) var(--sp-3) 110px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+.group {
+  margin-bottom: var(--sp-5);
+}
+
+.groupLabel {
+  font-size: var(--fs-label-s);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  margin-bottom: var(--sp-2);
+  padding: 0 var(--sp-1);
+}
+
+.card {
+  background: var(--color-surface-2);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-4);
+}
+
+.rowStatic {
+  cursor: default;
+}
+
+.rowInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rowTitle {
+  font-size: var(--fs-body-l);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.rowDesc {
+  font-size: var(--fs-label);
+  color: var(--color-text-muted);
+}
+
+/* Theme toggle (segmented buttons) */
+.themeToggle {
+  display: flex;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--r-pill);
+  padding: 2px;
+  gap: 0;
+  flex: 0 0 auto;
+}
+
+.themeToggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition:
+    background var(--dur-2) var(--ease-emphasized),
+    color var(--dur-2) var(--ease-emphasized);
+  white-space: nowrap;
+}
+
+.themeToggleBtnIsActive {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}

@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+# package-lock.json IS committed — required for reproducible CI builds (npm ci).
+bun.lockb
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build output (in case any prototype adds a build step later)
+dist/
+build/
+out/
+.next/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.bak
+.cache/
+
+# Local credentials (do not commit)
+credentials/

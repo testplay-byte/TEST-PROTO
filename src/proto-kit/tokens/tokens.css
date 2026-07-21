@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* =========================================================================
+   proto-kit / tokens.css
+   The SINGLE source of truth for design tokens across all prototypes.
+
+   Import once in a prototype's layout:
+     import "@proto-kit/tokens/tokens.css";
+
+   Font: Inter (with all weights 400-900) loaded via Google Fonts.
+   This ensures bold text (font-weight: 800) renders correctly on ALL
+   devices, including mobile devices that may not have bold system fonts.
+
+   Structure:
+   1. :root           — universal tokens (type, spacing, radius, motion)
+   2. .device          — app-level tokens (M3 color roles, surfaces)
+   3. .device[data-theme="dark"]  — dark palette (default)
+   4. .device[data-theme="light"] — light palette
+   5. Stage tokens     — adapt to the device theme via :has()
+
+   A prototype may override any token by re-declaring it on .device or a
+   child selector. Defaults here are the M3 Expressive purple palette.
+   ========================================================================= */
+
+:root {
+  /* ---- Type scale (M3) ---- */
+  --fs-display: 32px;
+  --fs-h1: 26px;
+  --fs-h2: 22px;
+  --fs-h3: 18px;
+  --fs-body-l: 16px;
+  --fs-body: 14px;
+  --fs-body-s: 13px;
+  --fs-label: 12px;
+  --fs-label-s: 11px;
+
+  /* ---- Spacing (4px grid) ---- */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+
+  /* ---- Radius (M3 shapes) ---- */
+  --r-xs: 8px; --r-sm: 12px; --r-md: 16px; --r-lg: 20px; --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* ---- Motion (M3 emphasized) ---- */
+  --ease-standard: cubic-bezier(.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(.3, 0, 0, 1);
+  --ease-emphasized-decel: cubic-bezier(.05, .7, .1, 1);
+  --dur-1: 100ms; --dur-2: 200ms; --dur-3: 300ms; --dur-4: 400ms; --dur-5: 500ms;
+
+  /* ---- Stage (page background behind the device) ----
+     These are PAGE-LEVEL tokens, so they live on :root (NOT on .device).
+     The .stage element is an ANCESTOR of .device — if these were scoped
+     to .device, the stage couldn't read them and would fall back to
+     transparent (showing the white body). The :has() rule below overrides
+     them for light mode. */
+  --stage-bg: #2a2a2a;
+  --sb-bg: #232323;
+  --sb-muted: #333333;
+  --sb-border: #3a3a3a;
+  --sb-text: #e0e0e0;
+  --sb-text-muted: #999999;
+}
+
+/* =========================================================================
+   App-level tokens — scoped to .device (M3 dark purple, default theme).
+   M3 tonal elevation: higher elevation = lighter surface tone (in dark).
+   ========================================================================= */
+.device {
+  /* Surface tonal tiers */
+  --color-bg: #14111f;
+  --color-surface-1: #1b1729;
+  --color-surface-2: #221e33;
+  --color-surface-3: #2a2540;
+  --color-surface-4: #332d4c;
+  --color-surface-5: #3d3656;
+
+  --color-text: #ece6f5;
+  --color-text-muted: #a89ec0;
+  --color-text-subtle: #6e6688;
+
+  /* M3 color roles */
+  --color-primary: #d0bcff;
+  --color-primary-fg: #381e72;
+  --color-on-primary-container: #eaddff;
+  --color-primary-container: #4f378b;
+  --color-secondary: #ccc2dc;
+  --color-secondary-container: #4a4458;
+  --color-tertiary: #efb8c8;
+  --color-tertiary-container: #633b48;
+  --color-error: #f2b8b5;
+  --color-error-container: #8c1d18;
+  --color-success: #a5d6a7;
+  --color-warn: #ffcc80;
+  --color-outline: #938f99;
+  --color-outline-variant: #49454f;
+
+  /* Device frame — INVERTS by theme for premium contrast.
+     Dark theme → soft platinum (light but not stark white). */
+  --device-bezel: #cfcfcf;
+  --device-edge: #a8a8a8;
+  /* Bright/platinum border reads visually heavier, so it's thinner. */
+  --bezel-w: 3.5px;
+  --edge-w: 4px;
+  --frame-shadow: rgba(0,0,0,.55);
+}
+
+/* ---- Light theme ---- */
+.device[data-theme="light"] {
+  --color-bg: #fef7ff;
+  --color-surface-1: #f3edf7;
+  --color-surface-2: #ede7f4;
+  --color-surface-3: #e7e0eb;
+  --color-surface-4: #ddd6e4;
+  --color-surface-5: #d0c9dd;
+  --color-text: #1d1b20;
+  --color-text-muted: #49454f;
+  --color-text-subtle: #766c8e;
+  --color-primary: #6750a4;
+  --color-primary-fg: #ffffff;
+  --color-on-primary-container: #21005d;
+  --color-primary-container: #eaddff;
+  --color-secondary: #625b71;
+  --color-secondary-container: #e8def8;
+  --color-tertiary: #7d5260;
+  --color-tertiary-container: #ffd8e4;
+  --color-outline: #79747e;
+  --color-outline-variant: #cac4d0;
+
+  /* Dark frame against the light screen. */
+  --device-bezel: #0e0a17;
+  --device-edge: #1b1729;
+  --bezel-w: 4px;
+  --edge-w: 4.4px;
+  --frame-shadow: rgba(0,0,0,.4);
+
+  --stage-bg: #c8c8c8;
+  --sb-bg: #d0d0d0;
+  --sb-muted: #c0c0c0;
+  --sb-border: #b8b8b8;
+  --sb-text: #333333;
+  --sb-text-muted: #666666;
+}
+
+/* ---- Stage adapts to the device theme via :has() ---- */
+:has(.device[data-theme="light"]) {
+  --stage-bg: #c8c8c8;
+  --sb-bg: #d0d0d0;
+  --sb-muted: #c0c0c0;
+  --sb-border: #b8b8b8;
+  --sb-text: #333333;
+  --sb-text-muted: #666666;
+}

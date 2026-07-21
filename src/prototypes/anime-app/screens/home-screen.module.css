@@ -1,0 +1,153 @@
+/* HomeScreen — topbar + hero + continue watching + 2 flat grids.
+   Clean, flat design — no tray backgrounds, just sections with headers. */
+
+.topbar {
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  flex: 0 0 auto;
+  background: var(--color-bg);
+  transition: padding var(--dur-3) var(--ease-emphasized);
+  animation: heroTitleIn var(--dur-4) var(--ease-emphasized-decel);
+}
+
+@keyframes heroTitleIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.topbarTitle {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--color-text);
+  transition: font-size var(--dur-3) var(--ease-emphasized);
+}
+
+/* Collapsed state — title shrinks when content is scrolled */
+.topbarIsCollapsed {
+  padding-top: var(--sp-1);
+  padding-bottom: 2px;
+}
+
+.topbarIsCollapsed .topbarTitle {
+  font-size: var(--fs-h2);
+}
+
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--sp-2) 0 110px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Hero ---- */
+.heroWrap {
+  margin: 0 var(--sp-3) var(--sp-4);
+}
+
+.heroSkeleton {
+  height: 200px;
+  border-radius: var(--r-md);
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    var(--color-surface-3) 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+/* ---- Section (flat, no tray background) ---- */
+.section {
+  margin-bottom: var(--sp-5);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0 var(--sp-3) var(--sp-3);
+}
+
+.sectionTitle {
+  font-size: var(--fs-body-l);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.005em;
+}
+
+/* ---- Grid ---- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--grid-gap-y, var(--sp-3)) var(--grid-gap-x, var(--sp-2));
+  padding: 0 var(--sp-3);
+}
+
+/* ---- Skeleton loading cards ---- */
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeletonCover {
+  aspect-ratio: 2 / 3;
+  border-radius: var(--r-sm);
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    var(--color-surface-3) 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonLine {
+  height: 12px;
+  border-radius: var(--r-xs);
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    var(--color-surface-3) 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonLineShort {
+  width: 60%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar,
+  .skeletonCard,
+  .skeletonCover,
+  .skeletonLine {
+    animation: none !important;
+  }
+}

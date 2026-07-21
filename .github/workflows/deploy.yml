@@ -1,0 +1,64 @@
+# .github/workflows/deploy.yml
+# Builds the Next.js static export and deploys to GitHub Pages.
+# Output: https://testplay-byte.github.io/TEST-PROTO/
+#
+# The static export (./out) contains:
+#   - The dashboard (app/page.tsx → out/index.html)
+#   - Next.js prototypes (app/prototypes/* → out/prototypes/*)
+#   - Legacy static prototypes (public/prototypes/* → out/prototypes/*)
+#     These coexist until each is ported to Next.js, then removed from public/.
+#   - Shared assets (public/assets/* → out/assets/*)
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

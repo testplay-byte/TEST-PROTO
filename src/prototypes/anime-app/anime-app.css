@@ -1,0 +1,298 @@
+/* anime-app.css — prototype-specific global styles.
+   Imported once by app/prototypes/anime-app/layout.tsx so it only
+   applies on the /prototypes/anime-app/* routes. Tokens come from
+   proto-kit/tokens/tokens.css (also imported by the layout). */
+
+body {
+  font-family: "Roboto", "Inter", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  background: var(--stage-bg);
+  color: var(--sb-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+/* ---- Side-panel content (right panel mini-bars + kvlist + tags) ---- */
+/* These are not in proto-kit/Stage; defined here globally. */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--r-pill);
+  background: var(--sb-muted);
+  color: var(--sb-text);
+  border: 1px solid var(--sb-border);
+}
+
+.screeninfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.screeninfo__name {
+  font-size: var(--fs-body-l);
+  font-weight: 700;
+}
+.screeninfo__desc {
+  font-size: var(--fs-label);
+  color: var(--sb-text-muted);
+  line-height: 1.5;
+}
+
+.mini-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.mini-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mini-bar-label {
+  width: 52px;
+  font-size: 10px;
+  color: var(--sb-text-muted);
+}
+.mini-bar-track {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--r-pill);
+  background: var(--sb-muted);
+  overflow: hidden;
+}
+.mini-bar-fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+}
+.mini-bar-num {
+  width: 28px;
+  text-align: right;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: var(--sb-text-muted);
+}
+
+.kvlist {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.kvlist__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+.kvlist__row span {
+  color: var(--sb-text-muted);
+}
+.kvlist__row b {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ---- View stack (all screens always mounted; opacity/transform toggled) ----
+   The detail view slides in from the right via translateX. */
+.view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-3) var(--ease-emphasized-decel);
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.view--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Detail view slides in from the right */
+.view[data-view="detail"] {
+  transform: translateX(100%);
+  transition: transform var(--dur-4) var(--ease-emphasized),
+    opacity var(--dur-3) var(--ease-emphasized-decel);
+}
+
+.view[data-view="detail"].view--active {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .view,
+  .view[data-view="detail"] {
+    transition: none !important;
+  }
+}
+
+/* ---- Animation speed overrides (applied via .device[data-anim-speed]) ----
+   These multiply the --dur-* tokens so EVERY transition in the app
+   scales with the user's chosen speed. */
+.device[data-anim-speed="fast"] {
+  --dur-1: 50ms;
+  --dur-2: 100ms;
+  --dur-3: 150ms;
+  --dur-4: 200ms;
+  --dur-5: 250ms;
+}
+.device[data-anim-speed="normal"] {
+  --dur-1: 100ms;
+  --dur-2: 200ms;
+  --dur-3: 300ms;
+  --dur-4: 400ms;
+  --dur-5: 500ms;
+}
+.device[data-anim-speed="slow"] {
+  --dur-1: 150ms;
+  --dur-2: 300ms;
+  --dur-3: 450ms;
+  --dur-4: 600ms;
+  --dur-5: 750ms;
+}
+
+/* ---- Poster style overrides (applied via .device[data-poster-style]) ----
+   Drives the card cover border-radius globally via a CSS variable.
+   Three options: rounded (12px), soft (6px), sharp (2px). */
+.device[data-poster-style="rounded"] {
+  --cover-radius: var(--r-sm);
+}
+.device[data-poster-style="soft"] {
+  --cover-radius: 6px;
+}
+.device[data-poster-style="sharp"] {
+  --cover-radius: 2px;
+}
+
+/* ---- Card density overrides (applied via .device[data-card-density]) ----
+   Affects gap, cover size, and text size across ALL grids in the device.
+   Uses CSS variables so every grid/card reads them without class juggling. */
+.device[data-card-density="compact"] {
+  --grid-gap-y: var(--sp-2);
+  --grid-gap-x: var(--sp-1);
+  --cover-radius-density: var(--r-xs);
+}
+.device[data-card-density="default"] {
+  --grid-gap-y: var(--sp-3);
+  --grid-gap-x: var(--sp-2);
+  --cover-radius-density: var(--r-sm);
+}
+.device[data-card-density="comfortable"] {
+  --grid-gap-y: var(--sp-5);
+  --grid-gap-x: var(--sp-4);
+  --cover-radius-density: var(--r-md);
+}
+
+/* ---- Buttons (shared between detail + library + filter sheet) ---- */
+.btn-filled {
+  flex: 1 1 0;
+  height: 52px;
+  border-radius: var(--r-pill);
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  font-size: var(--fs-body-l);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition:
+    background var(--dur-1) var(--ease-standard),
+    transform var(--dur-1) var(--ease-emphasized);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+.btn-filled:active {
+  transform: scale(0.97);
+}
+.btn-filled:hover {
+  background: color-mix(in srgb, var(--color-primary) 85%, #fff);
+}
+
+.btn-outlined {
+  flex: 1 1 0;
+  height: 52px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--color-outline-variant);
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--dur-1) var(--ease-standard);
+  position: relative;
+  overflow: hidden;
+}
+.btn-outlined:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ---- Confirm dialog (library removal) ---- */
+.confirm-dialog {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-2) var(--ease-standard);
+}
+.confirm-dialog.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.confirm-dialog__card {
+  background: var(--color-surface-3);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  max-width: 280px;
+  text-align: center;
+  transform: scale(0.9);
+  transition: transform var(--dur-2) var(--ease-emphasized);
+}
+.confirm-dialog.is-visible .confirm-dialog__card {
+  transform: scale(1);
+}
+.confirm-dialog__title {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--color-text);
+}
+.confirm-dialog__desc {
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+.confirm-dialog__actions {
+  display: flex;
+  gap: 8px;
+}
+.confirm-dialog__actions .btn-filled,
+.confirm-dialog__actions .btn-outlined {
+  flex: 1;
+  height: 44px;
+  font-size: var(--fs-body);
+}

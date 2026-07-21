@@ -1,0 +1,175 @@
+/* HistoryScreen — list of recently-viewed anime. */
+
+.topbar {
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  flex: 0 0 auto;
+  background: var(--color-bg);
+  transition: padding var(--dur-3) var(--ease-emphasized);
+}
+
+.topbarTitle {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--color-text);
+  transition: font-size var(--dur-3) var(--ease-emphasized);
+}
+
+/* Collapsed state — title shrinks when content is scrolled */
+.topbarIsCollapsed {
+  padding-top: var(--sp-1);
+  padding-bottom: 2px;
+}
+
+.topbarIsCollapsed .topbarTitle {
+  font-size: var(--fs-h2);
+}
+
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--sp-2) 0 110px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Section header ---- */
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: var(--sp-4) var(--sp-3) var(--sp-2);
+}
+
+.sectionTitle {
+  font-size: var(--fs-body-l);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.005em;
+}
+
+/* ---- List ---- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  margin-bottom: var(--sp-1);
+  cursor: pointer;
+  align-items: center;
+  transition: background var(--dur-1) var(--ease-standard),
+    transform var(--dur-1) var(--ease-emphasized);
+  animation: cardFadeIn var(--dur-3) var(--ease-emphasized-decel) backwards;
+}
+
+.row:hover {
+  background: var(--color-surface-2);
+}
+
+.row:active {
+  background: var(--color-surface-3);
+  transform: scale(0.99);
+}
+
+.rowCover {
+  width: 48px;
+  height: 64px;
+  border-radius: var(--r-xs);
+  overflow: hidden;
+  background: var(--color-surface-2);
+  flex: 0 0 auto;
+}
+
+.rowCover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rowInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.rowTitle {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowMeta {
+  font-size: var(--fs-label-s);
+  color: var(--color-text-muted);
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Empty state ---- */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: var(--sp-10) var(--sp-6);
+  text-align: center;
+}
+
+.emptyStateIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+}
+
+.emptyStateTitle {
+  margin: 0;
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.emptyStateDesc {
+  margin: 0;
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+  max-width: 30ch;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row {
+    animation: none !important;
+    transition: none !important;
+  }
+}

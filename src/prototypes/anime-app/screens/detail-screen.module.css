@@ -1,0 +1,414 @@
+/* DetailScreen — banner + cover + meta + add-to-lib + synopsis + episodes. */
+
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  background: var(--color-bg);
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Banner ---- */
+.banner {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 0;
+  transition: transform var(--dur-4) var(--ease-standard);
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-bg) 10%, transparent) 0%,
+    color-mix(in srgb, var(--color-bg) 50%, transparent) 35%,
+    color-mix(in srgb, var(--color-bg) 85%, transparent) 65%,
+    var(--color-bg) 100%
+  );
+}
+
+.bannerSkeleton {
+  height: 200px;
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    var(--color-surface-3) 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+/* ---- Back button ---- */
+.back {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--dur-2) var(--ease-emphasized),
+    background var(--dur-2) var(--ease-standard);
+}
+
+.back:active {
+  transform: scale(0.92);
+}
+
+/* ---- Header (cover + title + meta) ---- */
+.header {
+  display: flex;
+  gap: 14px;
+  margin-top: -50px;
+  position: relative;
+  z-index: 1;
+  padding: 0 16px;
+}
+
+.cover {
+  width: 100px;
+  height: 140px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  flex: 0 0 auto;
+  background: var(--color-surface-2);
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coverSkeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    var(--color-surface-3) 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-top: 50px;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.subtitle {
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.metaPill {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--color-surface-2);
+  color: var(--color-text);
+}
+
+/* ---- Actions (Add to Library + status selector) ---- */
+.actions {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  position: relative;
+}
+
+.libButtonWrap {
+  flex: 1 1 0;
+  position: relative;
+}
+
+.statusSelector {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--color-surface-4);
+  border-radius: var(--r-md);
+  padding: var(--sp-1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  animation: dropdownIn var(--dur-2) var(--ease-emphasized-decel);
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px var(--sp-3);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-body-s);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  transition:
+    background var(--dur-1) var(--ease-standard),
+    color var(--dur-1) var(--ease-standard);
+  text-align: left;
+}
+
+.statusItem:hover {
+  background: var(--color-surface-5);
+  color: var(--color-text);
+}
+
+/* ---- Body (genres + synopsis + episodes) ---- */
+.body {
+  padding: 0 16px 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionTitle {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.genreChip {
+  font-size: var(--fs-label-s);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  border: 1px solid var(--color-surface-3);
+}
+
+.synopsis {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: -webkit-line-clamp 0.3s ease;
+}
+
+.synopsisExpanded {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.expand {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* ---- Episodes ---- */
+.episodeList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.episodeRow {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--color-surface-2);
+  cursor: pointer;
+  align-items: center;
+  transition: background var(--dur-1) var(--ease-standard),
+    transform var(--dur-1) var(--ease-emphasized);
+}
+
+.episodeRow:active {
+  background: var(--color-surface-3);
+  transform: scale(0.98);
+}
+
+.episodeNum {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--color-surface-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text);
+  flex: 0 0 auto;
+}
+
+.episodeInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+
+.episodeTitle {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-text);
+}
+
+.episodeMeta {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* ---- Skeleton + placeholder + error ---- */
+.lineSkeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    var(--color-surface-3) 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: var(--r-xs);
+}
+
+.placeholder {
+  padding: var(--sp-10);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: var(--sp-10) var(--sp-6);
+  text-align: center;
+  margin-top: 80px;
+}
+
+.errorIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+}
+
+.errorTitle {
+  margin: 0;
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.errorDesc {
+  margin: 0;
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner,
+  .back,
+  .episodeRow,
+  .statusSelector,
+  .bannerSkeleton,
+  .coverSkeleton,
+  .lineSkeleton {
+    transition: none !important;
+    animation: none !important;
+  }
+}

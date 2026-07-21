@@ -1,0 +1,162 @@
+/* proto-kit / keyboard — on-screen QWERTY keyboard.
+   Slides up from the bottom of the device when an input is focused.
+   No dismiss bar — user dismisses by tapping outside the input.
+   Key press state uses a JS-driven class (pointer events) for reliability
+   on both desktop and mobile (CSS :active is unreliable on touch). */
+
+.keyboard {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  background: var(--color-surface-2);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dur-4) var(--ease-emphasized-decel),
+    opacity var(--dur-3) var(--ease-standard);
+  padding: 6px 0 env(safe-area-inset-bottom, 0px);
+  /* Touch-action: none on the keypad so touch drags don't scroll the page
+     while typing. Individual keys still get tap events. */
+  touch-action: none;
+}
+
+.keyboardIsActive {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ---- Keypad ---- */
+.keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 4px 6px 10px;
+}
+
+.row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+/* Indented row (ASDFGHJKL) — slight offset like real keyboards */
+.rowIndented {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+/* ---- Key ---- */
+.key {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 44px;
+  border-radius: var(--r-xs);
+  background: var(--color-surface-4);
+  color: var(--color-text);
+  font-size: var(--fs-body-l);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background var(--dur-1) var(--ease-standard),
+    color var(--dur-1) var(--ease-standard),
+    transform var(--dur-1) var(--ease-emphasized),
+    box-shadow var(--dur-1) var(--ease-standard);
+  /* Entry animation — each key pops in with a slight stagger */
+  animation: keyPop var(--dur-2) var(--ease-emphasized-decel) backwards;
+}
+
+/* Stagger the key pop-in by row */
+.row:nth-child(1) .key { animation-delay: 0ms; }
+.row:nth-child(2) .key { animation-delay: 30ms; }
+.row:nth-child(3) .key { animation-delay: 60ms; }
+.row:nth-child(4) .key { animation-delay: 90ms; }
+.row:nth-child(5) .key { animation-delay: 120ms; }
+
+@keyframes keyPop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hover (desktop only — :hover doesn't fire on touch) */
+@media (hover: hover) {
+  .key:hover {
+    background: var(--color-surface-5);
+  }
+}
+
+/* Pressed state — JS-driven via pointer events for reliability.
+   Shows the theme primary color with a scale-down + shadow. */
+.keyIsPressed {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  transform: scale(0.92);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+/* Wide keys (shift, backspace, enter) */
+.keyWide {
+  flex: 1.5 1 0;
+}
+
+/* Extra wide (space) */
+.keyExtraWide {
+  flex: 5 1 0;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Shift active state */
+.keyIsActive {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.keyIsActive.keyIsPressed {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+}
+
+/* Accent (enter key) */
+.keyAccent {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  font-weight: 700;
+  font-size: var(--fs-body);
+}
+
+.keyAccent.keyIsPressed {
+  background: color-mix(in srgb, var(--color-primary) 70%, black);
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--color-primary) 50%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keyboard {
+    transition: opacity var(--dur-2) var(--ease-standard);
+  }
+  .key {
+    animation: none !important;
+    transition: background var(--dur-1) var(--ease-standard) !important;
+  }
+}

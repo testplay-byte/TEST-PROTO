@@ -1,0 +1,575 @@
+/* LibraryScreen — saved anime with multi-select.
+   Supports grid (2–5 cols, text below or overlay) and list layouts.
+   Long-press a card to enter selection mode. Bottom action bar in
+   selection mode: Cancel, Status, Delete. */
+
+.topbar {
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  flex: 0 0 auto;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  transition: padding var(--dur-3) var(--ease-emphasized);
+}
+
+.topbarTitle {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--color-text);
+  transition: font-size var(--dur-3) var(--ease-emphasized);
+}
+
+.topbarIsCollapsed {
+  padding-top: var(--sp-1);
+  padding-bottom: 2px;
+}
+
+.topbarIsCollapsed .topbarTitle {
+  font-size: var(--fs-h2);
+}
+
+/* ---- Customize button (gear icon, top-right) ---- */
+.customizeBtn {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+  cursor: pointer;
+  transition: background var(--dur-2) var(--ease-emphasized),
+    color var(--dur-2) var(--ease-emphasized),
+    transform var(--dur-1) var(--ease-emphasized);
+}
+
+.customizeBtn:hover {
+  background: var(--color-surface-3);
+  color: var(--color-text);
+}
+
+.customizeBtn:active {
+  transform: scale(0.92);
+}
+
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 0 var(--sp-3) 110px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Tabs (flat row, hidden in select mode) ---- */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--color-surface-3);
+  margin-bottom: var(--sp-3);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 10px 14px;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  transition: color var(--dur-1) var(--ease-standard),
+    border-color var(--dur-1) var(--ease-standard);
+}
+
+.tab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transition: transform var(--dur-2) var(--ease-emphasized);
+  transform-origin: left;
+}
+
+.tabIsActive {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.tabIsActive::after {
+  transform: scaleX(1);
+}
+
+/* ---- Select bar (shown in select mode) ---- */
+.selectBar {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+
+.selectBarBtn {
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease-standard),
+    color var(--dur-1) var(--ease-standard);
+}
+
+.selectBarBtn:hover {
+  background: var(--color-surface-3);
+  color: var(--color-text);
+}
+
+/* =========================================================================
+   GRID LAYOUT
+   ========================================================================= */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--grid-gap-y, var(--sp-3)) var(--grid-gap-x, var(--sp-2));
+}
+
+/* ---- Card wrap ---- */
+.cardWrap {
+  position: relative;
+  min-width: 0;
+  animation: slideInRight var(--dur-3) var(--ease-emphasized-decel) backwards;
+  transition: transform var(--dur-1) var(--ease-emphasized);
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.cardWrap:active {
+  transform: scale(0.96);
+}
+
+/* Selected state */
+.cardWrapSelected {
+  transform: scale(0.93);
+  opacity: 0.7;
+}
+
+/* ---- Grid overlay text variant ---- */
+.gridOverlay :global(.anime-card) {
+  position: relative;
+}
+
+.gridOverlay :global(.anime-card__title) {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 28px 8px 8px;
+  margin: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  color: #fff;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2;
+  border-radius: 0 0 var(--r-sm) var(--r-sm);
+}
+
+.gridOverlay :global(.anime-card__meta) {
+  display: none;
+}
+
+/* =========================================================================
+   LIST LAYOUT
+   ========================================================================= */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.listRow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+  animation: listRowIn var(--dur-3) var(--ease-emphasized-decel) backwards;
+  transition: transform var(--dur-1) var(--ease-emphasized),
+    opacity var(--dur-2) var(--ease-standard);
+}
+
+@keyframes listRowIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.listRowSelected {
+  opacity: 0.6;
+  transform: scale(0.97);
+}
+
+.listItem {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2);
+  border-radius: var(--r-md);
+  background: var(--color-surface-1);
+  cursor: pointer;
+  text-align: left;
+  min-width: 0;
+  transition: background var(--dur-2) var(--ease-standard);
+}
+
+.listItem:hover {
+  background: var(--color-surface-2);
+}
+
+.listCover {
+  width: 52px;
+  height: 74px;
+  border-radius: var(--r-xs);
+  overflow: hidden;
+  background: var(--color-surface-3);
+  flex: 0 0 auto;
+  position: relative;
+}
+
+.listCover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.listInfo {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.listTitle {
+  margin: 0;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listMeta {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  font-size: var(--fs-label-s);
+  color: var(--color-text-subtle);
+  font-weight: 500;
+}
+
+.listScore {
+  color: var(--color-warn);
+  font-weight: 600;
+}
+
+.listStatus {
+  font-size: var(--fs-label-s);
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+
+/* =========================================================================
+   SELECTION CHECKMARK
+   ========================================================================= */
+
+.checkCircle {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 5;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: background var(--dur-2) var(--ease-standard),
+    border-color var(--dur-2) var(--ease-standard),
+    transform var(--dur-2) var(--ease-emphasized);
+}
+
+.checkCircleGrid {
+  top: -6px;
+  right: -6px;
+}
+
+.checkCircleOn {
+  background: var(--color-primary);
+  border-color: var(--color-primary-fg);
+  transform: scale(1.1);
+}
+
+/* =========================================================================
+   BOTTOM ACTION BAR (selection mode) — sits ON TOP of the bottom nav
+   ========================================================================= */
+
+.actionBar {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 25;
+  display: flex;
+  gap: 0;
+  padding: 0;
+  border-radius: var(--r-xl);
+  background: var(--color-surface-4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: actionBarIn var(--dur-3) var(--ease-emphasized-decel);
+  height: 58px;
+}
+
+@keyframes actionBarIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.actionBtn {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: var(--sp-2);
+  border-radius: var(--r-xl);
+  color: var(--color-text-muted);
+  font-size: var(--fs-body-s);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease-standard),
+    color var(--dur-1) var(--ease-standard);
+}
+
+.actionBtn:hover:not(:disabled) {
+  background: var(--color-surface-5);
+  color: var(--color-text);
+}
+
+.actionBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.actionBtnDanger {
+  color: var(--color-error);
+}
+
+.actionBtnDanger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-error) 15%, transparent);
+  color: var(--color-error);
+}
+
+/* =========================================================================
+   CATEGORY CHANGE MENU
+   ========================================================================= */
+
+.categoryMenuScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scrimIn var(--dur-2) var(--ease-standard);
+}
+
+@keyframes scrimIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.categoryMenu {
+  background: var(--color-surface-3);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
+  min-width: 260px;
+  max-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: menuIn var(--dur-3) var(--ease-emphasized-decel);
+}
+
+@keyframes menuIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Current categories section */
+.categoryCurrent {
+  margin-bottom: var(--sp-2);
+}
+
+.categoryMenuLabel {
+  display: block;
+  font-size: var(--fs-label-s);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--sp-2);
+}
+
+.categoryChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.categoryChip {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.categoryChipNone {
+  font-size: var(--fs-label);
+  color: var(--color-text-subtle);
+  font-style: italic;
+}
+
+.categoryDivider {
+  height: 1px;
+  background: var(--color-surface-5);
+  margin: var(--sp-3) 0;
+}
+
+.categoryMenuTitle {
+  margin: 0 0 var(--sp-3);
+  font-size: var(--fs-body-l);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.categoryOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.categoryOption {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-sm);
+  color: var(--color-text-muted);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease-standard),
+    color var(--dur-1) var(--ease-standard);
+}
+
+.categoryOption:hover {
+  background: var(--color-surface-4);
+  color: var(--color-text);
+}
+
+.categoryOptionDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  flex: 0 0 auto;
+}
+
+/* =========================================================================
+   EMPTY STATE
+   ========================================================================= */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: var(--sp-10) var(--sp-6);
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+.emptyStateIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+}
+
+.emptyStateTitle {
+  margin: 0;
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.emptyStateDesc {
+  margin: 0;
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+  max-width: 30ch;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardWrap,
+  .listRow,
+  .actionBar,
+  .categoryMenu {
+    animation: none !important;
+  }
+}

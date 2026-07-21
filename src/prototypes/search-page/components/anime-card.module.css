@@ -1,0 +1,93 @@
+/* AnimeCard — result tile in the 3-column grid. */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform var(--dur-1) var(--ease-emphasized);
+  animation: cardFadeIn var(--dur-4) var(--ease-emphasized-decel) backwards;
+}
+
+.card:active {
+  transform: scale(0.96);
+}
+
+.cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--color-surface-2);
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-4) var(--ease-emphasized-decel);
+}
+
+.card:active .cover img {
+  transform: scale(1.1);
+}
+
+.score {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(20, 17, 31, 0.82);
+  color: var(--color-warn);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: var(--r-xs);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  letter-spacing: 0.01em;
+}
+
+.star {
+  font-size: 9px;
+}
+
+.title {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--color-text);
+  letter-spacing: -0.005em;
+}
+
+.meta {
+  font-size: var(--fs-label-s);
+  font-weight: 500;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.01em;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+}
