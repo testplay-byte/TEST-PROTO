@@ -1,4 +1,4 @@
-/* SettingsScreen — units, theme, location, about. */
+/* SettingsScreen — Neo-Brutalist settings. */
 
 .view {
   position: absolute;
@@ -6,26 +6,29 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
-
-.topbar {
-  padding: var(--sp-3) var(--sp-3) var(--sp-1);
-  flex: 0 0 auto;
   background: var(--color-bg);
 }
 
+.topbar {
+  padding: 20px 16px 12px;
+  flex: 0 0 auto;
+  border-bottom: var(--nb-border);
+  background: var(--color-surface-2);
+}
+
 .topbarTitle {
-  font-size: var(--fs-display);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   margin: 0;
   color: var(--color-text);
+  text-transform: uppercase;
 }
 
 .content {
   flex: 1 1 auto;
   overflow-y: auto;
-  padding: var(--sp-2) var(--sp-3) 110px;
+  padding: 16px 14px 110px;
   scrollbar-width: none;
 }
 .content::-webkit-scrollbar {
@@ -33,103 +36,100 @@
 }
 
 .group {
-  margin-bottom: var(--sp-5);
+  margin-bottom: 28px;
 }
 
 .groupLabel {
-  font-size: var(--fs-label-s);
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   color: var(--color-primary);
-  margin-bottom: var(--sp-2);
-  padding: 0 var(--sp-1);
+  margin-bottom: 10px;
+  padding: 0 4px;
 }
 
 .card {
+  border: var(--nb-border);
   background: var(--color-surface-2);
-  border-radius: var(--r-md);
-  overflow: hidden;
+  box-shadow: var(--nb-shadow-sm);
 }
 
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sp-3);
-  padding: var(--sp-4) var(--sp-4);
+  gap: 16px;
+  padding: 16px;
 }
 
 .rowStatic {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sp-3);
-  padding: var(--sp-4) var(--sp-4);
-  cursor: default;
+  gap: 16px;
+  padding: 16px;
 }
 
 .rowInfo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   flex: 1 1 auto;
   min-width: 0;
 }
 
 .rowTitle {
-  font-size: var(--fs-body-l);
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 800;
   color: var(--color-text);
 }
 
 .rowDesc {
-  font-size: var(--fs-label);
+  font-size: 12px;
+  font-weight: 600;
   color: var(--color-text-muted);
 }
 
 .divider {
-  height: 1px;
-  background: var(--color-outline-variant);
-  margin: 0 var(--sp-4);
+  height: 2px;
+  background: #000;
+  margin: 0 16px;
 }
 
 /* Segmented controls */
 .segment {
   display: flex;
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--r-pill);
-  padding: 2px;
+  border: var(--nb-border);
   gap: 0;
   flex: 0 0 auto;
 }
 
 .segmentBtn {
-  padding: var(--sp-1) var(--sp-3);
+  padding: 7px 14px;
   border: none;
-  border-radius: var(--r-pill);
-  font-size: var(--fs-label);
-  font-weight: 600;
-  color: var(--color-text-muted);
-  background: transparent;
+  border-right: 2px solid #000;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-text);
+  background: var(--color-surface-2);
   cursor: pointer;
-  transition:
-    background var(--dur-2) var(--ease-emphasized),
-    color var(--dur-2) var(--ease-emphasized);
+  border-radius: 0;
+  transition: background 80ms;
   white-space: nowrap;
 }
-
+.segmentBtn:last-child {
+  border-right: none;
+}
 .segmentActive {
-  background: var(--color-primary-container);
-  color: var(--color-on-primary-container);
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
 }
 
 /* Theme toggle */
 .themeToggle {
   display: flex;
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--r-pill);
-  padding: 2px;
+  border: var(--nb-border);
   gap: 0;
   flex: 0 0 auto;
 }
@@ -138,47 +138,49 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
-  border-radius: var(--r-pill);
-  font-size: var(--fs-label);
-  font-weight: 600;
-  color: var(--color-text-muted);
-  background: transparent;
-  cursor: pointer;
+  padding: 7px 14px;
+  border-radius: 0;
   border: none;
-  transition:
-    background var(--dur-2) var(--ease-emphasized),
-    color var(--dur-2) var(--ease-emphasized);
+  border-right: 2px solid #000;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-text);
+  background: var(--color-surface-2);
+  cursor: pointer;
+  transition: background 80ms;
   white-space: nowrap;
 }
-
+.themeToggleBtn:last-child {
+  border-right: none;
+}
 .themeToggleActive {
-  background: var(--color-primary-container);
-  color: var(--color-on-primary-container);
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
 }
 
-/* Action row (clickable) */
+/* Action row */
 .actionRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sp-3);
-  padding: var(--sp-4) var(--sp-4);
+  gap: 16px;
+  padding: 16px;
   background: none;
   border: none;
   color: inherit;
   cursor: pointer;
   width: 100%;
   text-align: left;
-  transition: background var(--dur-2) var(--ease-emphasized);
+  transition: background 80ms;
 }
 .actionRow:active {
-  background: var(--color-surface-3);
+  background: var(--color-primary);
 }
 
 .actionLabel {
-  font-size: var(--fs-label);
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 900;
   color: var(--color-primary);
   white-space: nowrap;
+  text-transform: uppercase;
 }

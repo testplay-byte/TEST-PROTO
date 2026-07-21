@@ -1175,20 +1175,19 @@ export default function Page() {
               </div>
             </article>
 
-            {/* ===== Weather App (beautiful minimal weather prototype) ===== */}
+            {/* ===== Weather App (neo-brutalist weather prototype) ===== */}
             <article className="show">
               <div className="show__info show__info--left">
                 <span className="tag tag--status">new</span>
                 <h3 className="show__name">Weather App</h3>
                 <p className="show__desc">
-                  A beautiful, minimal weather app with current conditions,
-                  6 live stats, hourly and daily forecasts (12h + 7-day),
-                  location search across 8 cities, and customizable units
-                  with dark/light theming. Sky-blue palette.
+                  A neo-brutalist weather app with raw, bold design. Thick
+                  black borders, hard shadows, vibrant yellow accents. Current
+                  conditions, hourly &amp; daily forecasts, 9 cities including
+                  Islamabad, and full dark/light theming.
                 </p>
                 <div className="tags">
-                  <span className="tag">Weather</span>
-                  <span className="tag">Dark/light</span>
+                  <span className="tag">Neo-Brutal</span>
                   <span className="tag">v1</span>
                 </div>
               </div>
@@ -1197,18 +1196,18 @@ export default function Page() {
                 href="prototypes/weather-app/"
                 aria-label="Open Weather App prototype"
                 style={{
-                  borderColor: "#1a3555",
+                  borderColor: "#555555",
                   background:
-                    "linear-gradient(160deg, #0d1b2a, #152b4a)",
+                    "linear-gradient(160deg, #1a1a1a, #2a2a2a)",
                 }}
               >
                 <span
                   className="phone__screen"
-                  style={{ background: "#0a1628" }}
+                  style={{ background: "#0a0a0a" }}
                 >
                   <span
                     className="phone__statusbar"
-                    style={{ color: "#e0e6ed" }}
+                    style={{ color: "#ffffff" }}
                   >
                     <span>9:41</span>
                     <span className="phone__punchhole" />
@@ -1228,7 +1227,8 @@ export default function Page() {
                         width: 36,
                         height: 36,
                         borderRadius: "50%",
-                        background: "var(--chart-4)",
+                        background: "#ffeb3b",
+                        border: "3px solid #000",
                       }}
                     />
                   </span>
@@ -1237,8 +1237,8 @@ export default function Page() {
                       marginTop: 10,
                       height: 16,
                       width: "50%",
-                      borderRadius: 4,
-                      background: "#112240",
+                      borderRadius: 2,
+                      background: "#333",
                       marginLeft: "auto",
                       marginRight: "auto",
                     }}
@@ -1254,17 +1254,19 @@ export default function Page() {
                     <span
                       style={{
                         padding: "4px 8px",
-                        borderRadius: 6,
-                        background: "#112240",
+                        borderRadius: 2,
+                        background: "#333",
                         height: 24,
+                        border: "2px solid #555",
                       }}
                     />
                     <span
                       style={{
                         padding: "4px 8px",
-                        borderRadius: 6,
-                        background: "#1e3050",
+                        borderRadius: 2,
+                        background: "#2a2a2a",
                         height: 24,
+                        border: "2px solid #555",
                       }}
                     />
                   </span>
@@ -1279,29 +1281,31 @@ export default function Page() {
                       style={{
                         flex: 1,
                         height: 14,
-                        borderRadius: 4,
-                        background: "#112240",
+                        borderRadius: 2,
+                        background: "#333",
+                        border: "2px solid #555",
                       }}
                     />
                     <span
                       style={{
                         flex: 1,
                         height: 14,
-                        borderRadius: 4,
-                        background: "#112240",
+                        borderRadius: 2,
+                        background: "#333",
+                        border: "2px solid #555",
                       }}
                     />
                   </span>
                   <span
                     className="phone__nav"
                     style={{
-                      borderTopColor: "#112240",
-                      background: "#112240",
+                      borderTopColor: "#1a1a1a",
+                      background: "#1a1a1a",
                     }}
                   >
-                    <span style={{ background: "#4fc3f7" }} />
-                    <span style={{ background: "#1e3050" }} />
-                    <span style={{ background: "#1e3050" }} />
+                    <span style={{ background: "#ffeb3b" }} />
+                    <span style={{ background: "#333" }} />
+                    <span style={{ background: "#333" }} />
                   </span>
                 </span>
               </a>
@@ -1337,7 +1341,7 @@ export default function Page() {
                         className="mini-bar-fill"
                         style={{
                           width: "100%",
-                          background: "var(--chart-4)",
+                          background: "var(--chart-5)",
                         }}
                       />
                     </div>
@@ -1372,7 +1376,7 @@ export default function Page() {
                     <b>4</b>&nbsp;screens
                   </div>
                   <div className="kv__row">
-                    <b>Sky</b>&nbsp;theme
+                    <b>Neo-brutal</b>&nbsp;style
                   </div>
                 </div>
                 <a className="openlink" href="prototypes/weather-app/">

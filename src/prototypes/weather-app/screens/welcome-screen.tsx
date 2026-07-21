@@ -17,11 +17,11 @@ export function WelcomeScreen({ onLocationSelected }: WelcomeScreenProps) {
       <div className={styles.hero}>
         <div className={styles.iconWrap}>
           <svg
-            width="56"
-            height="56"
+            width="48"
+            height="48"
             viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--color-primary)"
+            fill="var(--color-primary)"
+            stroke="#000"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -30,11 +30,11 @@ export function WelcomeScreen({ onLocationSelected }: WelcomeScreenProps) {
             <path d="M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
           </svg>
         </div>
-        <h1 className={styles.title}>Welcome to Weather</h1>
+        <h1 className={styles.title}>WEATHER</h1>
         <p className={styles.subtitle}>
-          Beautiful forecasts for every moment.
+          Brutal forecasts. Raw data.
           <br />
-          Choose your city to get started.
+          Pick a city below.
         </p>
       </div>
 
@@ -45,8 +45,8 @@ export function WelcomeScreen({ onLocationSelected }: WelcomeScreenProps) {
             height="18"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
+            stroke="#000"
+            strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             className={styles.searchIcon}
@@ -57,46 +57,37 @@ export function WelcomeScreen({ onLocationSelected }: WelcomeScreenProps) {
           <input
             className={styles.searchInput}
             type="text"
-            placeholder="Search for a city..."
+            placeholder="Type a city..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
           />
         </div>
 
-        <div className={styles.results}>
-          {results.map((loc) => (
-            <button
-              key={loc.id}
-              type="button"
-              className={styles.resultCard}
-              onClick={() => onLocationSelected(loc.id)}
-            >
-              <div className={styles.resultLeft}>
-                <span className={styles.cityName}>{loc.name}</span>
-                <span className={styles.countryName}>{loc.country}</span>
-              </div>
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+        {results.length > 0 && (
+          <div className={styles.results}>
+            {results.map((loc) => (
+              <button
+                key={loc.id}
+                type="button"
+                className={styles.resultCard}
+                onClick={() => onLocationSelected(loc.id)}
               >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </button>
-          ))}
-        </div>
+                <div className={styles.resultLeft}>
+                  <span className={styles.cityName}>{loc.name}</span>
+                  <span className={styles.countryName}>{loc.country}</span>
+                </div>
+                <span className={styles.resultArrow}>&rarr;</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className={styles.popularSection}>
-        <span className={styles.popularLabel}>Popular cities</span>
+        <span className={styles.popularLabel}>QUICK PICKS</span>
         <div className={styles.popularGrid}>
-          {["tokyo", "newyork", "london", "paris"].map((id) => {
+          {["tokyo", "newyork", "london", "paris", "islamabad"].map((id) => {
             const loc = searchLocations(id)[0];
             if (!loc) return null;
             return (
@@ -106,7 +97,7 @@ export function WelcomeScreen({ onLocationSelected }: WelcomeScreenProps) {
                 className={styles.popularChip}
                 onClick={() => onLocationSelected(id)}
               >
-                {loc.name}, {loc.country}
+                {loc.name}
               </button>
             );
           })}

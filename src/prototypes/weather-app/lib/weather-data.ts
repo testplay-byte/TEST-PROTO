@@ -137,6 +137,23 @@ const LOCATIONS_DATA: Record<string, CurrentWeather> = {
     high: 33,
     low: 28,
   },
+  islamabad: {
+    location: "Islamabad",
+    country: "Pakistan",
+    temp: 23,
+    feelsLike: 23,
+    condition: "sunny",
+    humidity: 42,
+    windSpeed: 9,
+    windDir: "NW",
+    pressure: 1016,
+    uvIndex: 6,
+    visibility: 14,
+    icon: "sun",
+    description: "Clear skies, pleasant breeze",
+    high: 26,
+    low: 18,
+  },
 };
 
 const LOCATIONS_SEARCH = [
@@ -148,6 +165,7 @@ const LOCATIONS_SEARCH = [
   { id: "dubai", name: "Dubai", country: "UAE" },
   { id: "moscow", name: "Moscow", country: "Russia" },
   { id: "mumbai", name: "Mumbai", country: "India" },
+  { id: "islamabad", name: "Islamabad", country: "Pakistan" },
 ];
 
 export function searchLocations(query: string) {

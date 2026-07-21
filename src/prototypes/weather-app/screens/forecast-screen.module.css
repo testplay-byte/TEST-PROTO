@@ -1,4 +1,4 @@
-/* ForecastScreen — hourly + daily tabs. */
+/* ForecastScreen — Neo-Brutalist hourly + daily tabs. */
 
 .root {
   position: absolute;
@@ -6,53 +6,57 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
-
-.topbar {
-  padding: var(--sp-3) var(--sp-3) var(--sp-1);
-  flex: 0 0 auto;
   background: var(--color-bg);
 }
 
+.topbar {
+  padding: 20px 16px 12px;
+  flex: 0 0 auto;
+  border-bottom: var(--nb-border);
+  background: var(--color-surface-2);
+}
+
 .topbarTitle {
-  font-size: var(--fs-display);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin: 0 0 var(--sp-3);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
   color: var(--color-text);
+  text-transform: uppercase;
 }
 
 .tabs {
   display: flex;
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--r-pill);
-  padding: 2px;
+  border: var(--nb-border);
   gap: 0;
 }
 
 .tab {
   flex: 1;
-  padding: var(--sp-2) var(--sp-3);
+  padding: 10px 16px;
   border: none;
-  border-radius: var(--r-pill);
-  font-size: var(--fs-label);
-  font-weight: 600;
-  color: var(--color-text-muted);
-  background: transparent;
+  border-right: 2px solid #000;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-text);
+  background: var(--color-surface-2);
   cursor: pointer;
-  transition:
-    background var(--dur-2) var(--ease-emphasized),
-    color var(--dur-2) var(--ease-emphasized);
+  border-radius: 0;
+  text-transform: uppercase;
+  transition: background 80ms;
+}
+.tab:last-child {
+  border-right: none;
 }
 .tabActive {
-  background: var(--color-primary-container);
-  color: var(--color-on-primary-container);
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
 }
 
 .content {
   flex: 1 1 auto;
   overflow-y: auto;
-  padding: var(--sp-2) var(--sp-3) 110px;
+  padding: 12px 14px 110px;
   scrollbar-width: none;
 }
 .content::-webkit-scrollbar {
@@ -64,50 +68,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 120px;
-}
-
-.loadingSpinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--color-surface-3);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+  padding-top: 160px;
 }
 
 /* Forecast rows */
 .list {
   display: flex;
   flex-direction: column;
+  border: var(--nb-border);
   background: var(--color-surface-2);
-  border-radius: var(--r-md);
-  overflow: hidden;
 }
 
 .row {
   display: flex;
   align-items: center;
-  padding: var(--sp-3) var(--sp-4);
-  gap: var(--sp-3);
-  border-bottom: 1px solid var(--color-outline-variant);
-  transition: background var(--dur-2) var(--ease-emphasized);
+  padding: 14px 16px;
+  gap: 14px;
+  border-bottom: 2px solid #000;
+  transition: background 80ms;
 }
 .row:last-child {
   border-bottom: none;
 }
 .row:active {
-  background: var(--color-surface-3);
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
 }
 
 .rowTime {
-  width: 56px;
-  font-size: var(--fs-body-l);
-  font-weight: 600;
+  width: 52px;
+  font-size: 15px;
+  font-weight: 800;
   color: var(--color-text);
   font-variant-numeric: tabular-nums;
 }
@@ -117,9 +108,9 @@
 }
 
 .rowTemp {
-  font-size: var(--fs-body-l);
-  font-weight: 700;
-  color: var(--color-text);
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--color-primary);
   margin-left: auto;
 }
 
@@ -127,36 +118,38 @@
 .rowDay {
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  width: 70px;
+  gap: 2px;
+  width: 68px;
 }
 
 .rowDayName {
-  font-size: var(--fs-body-l);
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 900;
   color: var(--color-text);
+  text-transform: uppercase;
 }
 
 .rowDate {
-  font-size: var(--fs-label-s);
+  font-size: 11px;
+  font-weight: 700;
   color: var(--color-text-muted);
 }
 
 .rowRange {
   display: flex;
   align-items: center;
-  gap: var(--sp-2);
+  gap: 10px;
   margin-left: auto;
 }
 
 .rowHigh {
-  font-size: var(--fs-body-l);
-  font-weight: 700;
-  color: var(--color-text);
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--color-primary);
 }
 
 .rowLow {
-  font-size: var(--fs-body-l);
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--color-text-muted);
 }

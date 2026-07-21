@@ -210,14 +210,14 @@ export default function Page() {
             <PanelBadge>prototype v1</PanelBadge>
             <PanelTitle>Weather App</PanelTitle>
             <PanelDesc>
-              A beautiful, minimal weather app with current conditions,
-              hourly &amp; daily forecasts, location search, and
-              customizable units. Sky-blue palette with dark/light
-              theming.
+              A neo-brutalist weather app with raw, bold design. Thick
+              black borders, hard shadows, vibrant yellow accents. Current
+              conditions, hourly &amp; daily forecasts across 9 cities,
+              and dark/light theming.
             </PanelDesc>
             <div className="tags">
-              <span className="tag">Weather</span>
-              <span className="tag">Dark/light</span>
+              <span className="tag">Neo-Brutal</span>
+              <span className="tag">Bold</span>
               <span className="tag">v1</span>
             </div>
           </>
@@ -261,16 +261,16 @@ export default function Page() {
             <PanelHead>Design</PanelHead>
             <div className="kvlist">
               <div className="kvlist__row">
-                <span>Theme</span>
-                <b>Sky Blue</b>
+                <span>Style</span>
+                <b>Neo-Brutalist</b>
               </div>
               <div className="kvlist__row">
-                <span>Elevation</span>
-                <b>Tonal</b>
+                <span>Borders</span>
+                <b>3px Solid</b>
               </div>
               <div className="kvlist__row">
                 <span>Primary</span>
-                <b>#4fc3f7</b>
+                <b>#ffeb3b</b>
               </div>
               <div className="kvlist__row">
                 <span>Location</span>

@@ -1,4 +1,4 @@
-/* HomeScreen — current weather dashboard. */
+/* HomeScreen — Neo-Brutalist current weather. */
 
 .root {
   position: absolute;
@@ -7,38 +7,31 @@
   flex-direction: column;
   overflow-y: auto;
   scrollbar-width: none;
+  background: var(--color-bg);
   padding-bottom: 90px;
 }
 .root::-webkit-scrollbar {
   display: none;
 }
 
-/* Loading state */
+/* Loading */
 .loading {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--sp-3);
-  padding-top: 160px;
+  padding-top: 200px;
 }
 
-.loadingSpinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--color-surface-3);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loadingText {
-  font-size: var(--fs-body-l);
-  color: var(--color-text-muted);
+.loadingBox {
+  padding: 16px 32px;
+  border: var(--nb-border);
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  box-shadow: var(--nb-shadow);
 }
 
 /* Header */
@@ -46,81 +39,90 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--sp-5) var(--sp-4) var(--sp-4);
-  background: linear-gradient(180deg,
-    var(--color-surface-2) 0%,
-    transparent 100%);
+  padding: 32px 20px 24px;
+  border-bottom: var(--nb-border);
+  background: var(--color-surface-2);
 }
 
 .headerIcon {
-  margin-bottom: var(--sp-3);
+  margin-bottom: 16px;
 }
 
 .headerTemp {
-  font-size: 64px;
-  font-weight: 300;
-  letter-spacing: -0.04em;
+  font-size: 72px;
+  font-weight: 900;
+  letter-spacing: -0.06em;
   color: var(--color-text);
   line-height: 1;
-  margin-bottom: var(--sp-1);
+  margin-bottom: 6px;
 }
 
 .headerDesc {
-  font-size: var(--fs-body);
-  color: var(--color-text-muted);
-  text-transform: capitalize;
-  margin-bottom: var(--sp-2);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-text);
+  text-transform: uppercase;
+  margin-bottom: 14px;
 }
 
 .headerRange {
-  font-size: var(--fs-label);
-  color: var(--color-secondary);
-  font-weight: 600;
-  margin-bottom: var(--sp-2);
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.rangeBadge {
+  padding: 4px 14px;
+  border: var(--nb-border);
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: var(--nb-shadow-sm);
 }
 
 .headerLocation {
-  font-size: var(--fs-body-l);
+  font-size: 16px;
+  font-weight: 800;
   color: var(--color-text);
-  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Detail grid */
 .detailGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--sp-2);
-  padding: var(--sp-3) var(--sp-3) var(--sp-5);
+  gap: 10px;
+  padding: 16px 14px 40px;
 }
 
 .detailCard {
   background: var(--color-surface-2);
-  border-radius: var(--r-md);
-  padding: var(--sp-4) var(--sp-3);
+  border: 3px solid var(--color-primary);
+  border-radius: 0;
+  padding: 16px 14px;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-1);
-  transition: transform var(--dur-2) var(--ease-emphasized);
+  gap: 8px;
+  box-shadow: var(--nb-shadow-sm);
+  transition: transform 80ms, box-shadow 80ms;
 }
 .detailCard:active {
-  transform: scale(0.97);
-}
-
-.detailIcon {
-  color: var(--color-primary);
-  margin-bottom: var(--sp-1);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000;
 }
 
 .detailLabel {
-  font-size: var(--fs-label-s);
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   color: var(--color-text-muted);
 }
 
 .detailValue {
-  font-size: var(--fs-body-l);
-  font-weight: 700;
-  color: var(--color-text);
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--color-primary);
 }
