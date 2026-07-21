@@ -28,9 +28,10 @@ interface DetailScreenProps {
   active: boolean;
   animeId: number | null;
   onBack: () => void;
+  onPlayEpisode: (animeId: number, epNum: number) => void;
 }
 
-export function DetailScreen({ active, animeId, onBack }: DetailScreenProps) {
+export function DetailScreen({ active, animeId, onBack, onPlayEpisode }: DetailScreenProps) {
   const { anime, loading, error } = useAnimeDetail(animeId);
   const { add: addHistory } = useHistory();
   const { has, add: addToLib, remove: removeFromLib } = useLibrary();
@@ -118,6 +119,7 @@ export function DetailScreen({ active, animeId, onBack }: DetailScreenProps) {
             onToggleStatusSelector={() =>
               setStatusSelectorOpen((v) => !v)
             }
+            onPlayEpisode={onPlayEpisode}
           />
         )}
       </div>
@@ -139,6 +141,7 @@ interface DetailBodyProps {
   onPickStatus: (s: LibraryStatus) => void;
   statusSelectorOpen: boolean;
   onToggleStatusSelector: () => void;
+  onPlayEpisode: (animeId: number, epNum: number) => void;
 }
 
 function DetailBody({
@@ -151,6 +154,7 @@ function DetailBody({
   onPickStatus,
   statusSelectorOpen,
   onToggleStatusSelector,
+  onPlayEpisode,
 }: DetailBodyProps) {
   const title = anime.title.romaji || anime.title.english || "Unknown";
   const englishSub =
@@ -291,7 +295,16 @@ function DetailBody({
             <h3 className={styles.sectionTitle}>Episodes</h3>
             <div className={styles.episodeList}>
               {Array.from({ length: epCount }).map((_, i) => (
-                <div key={i} className={styles.episodeRow}>
+                <div
+                  key={i}
+                  className={styles.episodeRow}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => onPlayEpisode(anime.id, i + 1)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") onPlayEpisode(anime.id, i + 1);
+                  }}
+                >
                   <div className={styles.episodeNum}>{i + 1}</div>
                   <div className={styles.episodeInfo}>
                     <span className={styles.episodeTitle}>
@@ -301,6 +314,16 @@ function DetailBody({
                       {anime.format ? formatLabel(anime.format) : "TV"}
                     </span>
                   </div>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className={styles.episodePlay}
+                    aria-hidden="true"
+                  >
+                    <polygon points="5,3 19,12 5,21" />
+                  </svg>
                 </div>
               ))}
             </div>

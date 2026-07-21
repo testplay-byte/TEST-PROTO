@@ -11,8 +11,9 @@
  *   .view--active) + BottomNav (hidden when detail is active).
  *
  * Hash router:
- *   #home / #search / #library / #history / #settings → that view.
+ *   #home / #search / #library / #history / #schedule / #settings → that view.
  *   #animedetails{id} → detail view (pushed, slides in from right).
+ *   #animedetails{id}-{episode} → player view (episode number after dash).
  *
  * Detail pushes use history.pushState (not replaceState) so the browser's
  * back button closes the detail view. The popstate listener re-parses
@@ -41,8 +42,9 @@ import { HistoryScreen } from "../../../src/prototypes/anime-app/screens/history
 import { ScheduleScreen } from "../../../src/prototypes/anime-app/screens/schedule-screen";
 import { SettingsScreen } from "../../../src/prototypes/anime-app/screens/settings-screen";
 import { DetailScreen } from "../../../src/prototypes/anime-app/screens/detail-screen";
+import { PlayerScreen } from "../../../src/prototypes/anime-app/screens/player-screen";
 
-type ViewId = "home" | "search" | "library" | "history" | "schedule" | "settings" | "detail";
+type ViewId = "home" | "search" | "library" | "history" | "schedule" | "settings" | "detail" | "player";
 
 const NAV_ITEMS = [
   {
@@ -190,6 +192,10 @@ const SCREEN_INFO: Record<ViewId, { name: string; desc: string }> = {
     name: "Detail",
     desc: "Anime details with synopsis, genres, and episodes.",
   },
+  player: {
+    name: "Player",
+    desc: "Video player with episode list, share, and download options.",
+  },
 };
 
 // ---------------------------------------------------------------------------
@@ -199,12 +205,13 @@ const SCREEN_INFO: Record<ViewId, { name: string; desc: string }> = {
 interface HashState {
   view: ViewId;
   detailId: number | null;
+  episode: number | null;
 }
 
 function parseHash(): HashState {
-  if (typeof window === "undefined") return { view: "home", detailId: null };
+  if (typeof window === "undefined") return { view: "home", detailId: null, episode: null };
   const hash = window.location.hash.replace(/^#/, "");
-  if (!hash || hash === "home") return { view: "home", detailId: null };
+  if (!hash || hash === "home") return { view: "home", detailId: null, episode: null };
   if (
     hash === "search" ||
     hash === "library" ||
@@ -212,13 +219,21 @@ function parseHash(): HashState {
     hash === "schedule" ||
     hash === "settings"
   ) {
-    return { view: hash, detailId: null };
+    return { view: hash, detailId: null, episode: null };
   }
   if (hash.startsWith("animedetails")) {
-    const id = parseInt(hash.replace("animedetails", ""), 10);
-    if (id) return { view: "detail", detailId: id };
+    const raw = hash.replace("animedetails", "");
+    // Check for episode suffix: animedetails123-45
+    const dashIdx = raw.indexOf("-");
+    if (dashIdx !== -1) {
+      const id = parseInt(raw.slice(0, dashIdx), 10);
+      const ep = parseInt(raw.slice(dashIdx + 1), 10);
+      if (id && ep) return { view: "player", detailId: id, episode: ep };
+    }
+    const id = parseInt(raw, 10);
+    if (id) return { view: "detail", detailId: id, episode: null };
   }
-  return { view: "home", detailId: null };
+  return { view: "home", detailId: null, episode: null };
 }
 
 // ---------------------------------------------------------------------------
@@ -228,6 +243,7 @@ function parseHash(): HashState {
 export default function Page() {
   const [view, setView] = useState<ViewId>("home");
   const [detailId, setDetailId] = useState<number | null>(null);
+  const [episode, setEpisode] = useState<number | null>(null);
 
   // Read hash on mount. If empty, replaceState to #home (matches original).
   useEffect(() => {
@@ -239,19 +255,22 @@ export default function Page() {
       }
       setView("home");
       setDetailId(null);
+      setEpisode(null);
     } else {
-      const { view: v, detailId: id } = parseHash();
+      const { view: v, detailId: id, episode: ep } = parseHash();
       setView(v);
       setDetailId(id);
+      setEpisode(ep);
     }
   }, []);
 
   // Listen for back/forward.
   useEffect(() => {
     function onPop() {
-      const { view: v, detailId: id } = parseHash();
+      const { view: v, detailId: id, episode: ep } = parseHash();
       setView(v);
       setDetailId(id);
+      setEpisode(ep);
     }
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
@@ -266,6 +285,23 @@ export default function Page() {
     }
     setView("detail");
     setDetailId(id);
+    setEpisode(null);
+  }
+
+  // Open player from an episode click — pushState so back returns to detail.
+  function openPlayer(animeId: number, epNum: number) {
+    try {
+      history.pushState(
+        { view: "player", id: animeId, episode: epNum },
+        "",
+        `#animedetails${animeId}-${epNum}`,
+      );
+    } catch {
+      /* ignore */
+    }
+    setView("player");
+    setDetailId(animeId);
+    setEpisode(epNum);
   }
 
   // Bottom nav click.
@@ -278,9 +314,10 @@ export default function Page() {
     }
     setView(id as ViewId);
     setDetailId(null);
+    setEpisode(null);
   }
 
-  // Back button on the detail screen → history.back() → popstate fires.
+  // Back button on the detail or player screen → history.back() → popstate fires.
   function closeDetail() {
     history.back();
   }
@@ -298,14 +335,14 @@ export default function Page() {
   useSwipeSimulation({
     enabled: true,
     onSwipeLeft: () => {
-      if (view === "detail") return;
+      if (view === "detail" || view === "player") return;
       const idx = SWIPE_ORDER.indexOf(view);
       if (idx >= 0 && idx < SWIPE_ORDER.length - 1) {
         handleNav(SWIPE_ORDER[idx + 1]);
       }
     },
     onSwipeRight: () => {
-      if (view === "detail") {
+      if (view === "detail" || view === "player") {
         closeDetail();
         return;
       }
@@ -319,8 +356,8 @@ export default function Page() {
 
   const info = SCREEN_INFO[view];
 
-  // The active nav id — when detail is open, no nav item is highlighted.
-  const navActiveId = view === "detail" ? "" : view;
+  // The active nav id — when detail/player is open, no nav item is highlighted.
+  const navActiveId = view === "detail" || view === "player" ? "" : view;
 
   return (
     <DeviceThemeProvider storageKey="anime-app-theme" initialTheme="dark">
@@ -406,18 +443,31 @@ export default function Page() {
               />
               <SettingsScreen active={view === "settings"} />
 
-              {/* Detail (pushed view) — slides in from the right.
-                  Records itself into history when its anime loads
-                  (the effect lives inside DetailScreen). */}
+{/* Detail (pushed view) — slides in from the right.
+                   Records itself into history when its anime loads
+                   (the effect lives inside DetailScreen). */}
               <DetailScreen
                 active={view === "detail"}
                 animeId={detailId}
                 onBack={closeDetail}
+                onPlayEpisode={(animeId, epNum) => openPlayer(animeId, epNum)}
+              />
+
+              {/* Player (pushed view) — slides in from the right.
+                   Shows video player, episode list, and action buttons. */}
+              <PlayerScreen
+                active={view === "player"}
+                animeId={detailId}
+                episode={episode}
+                onBack={closeDetail}
+                onSelectEpisode={(epNum) => {
+                  if (detailId !== null) openPlayer(detailId, epNum);
+                }}
               />
             </Screen>
 
-            {/* Bottom nav — hidden when detail is open. */}
-            {view !== "detail" && (
+            {/* Bottom nav — hidden when detail or player is open. */}
+            {view !== "detail" && view !== "player" && (
               <BottomNav
                 items={NAV_ITEMS}
                 activeId={navActiveId}

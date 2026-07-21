@@ -296,9 +296,28 @@
     transform var(--dur-1) var(--ease-emphasized);
 }
 
+.episodeRow:hover {
+  background: var(--color-surface-3);
+}
+
 .episodeRow:active {
   background: var(--color-surface-3);
   transform: scale(0.98);
+}
+
+.episodePlay {
+  color: var(--color-primary);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity var(--dur-2) var(--ease-emphasized),
+              transform var(--dur-2) var(--ease-emphasized);
+  flex: 0 0 auto;
+}
+
+.episodeRow:active .episodePlay,
+.episodeRow:hover .episodePlay {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .episodeNum {

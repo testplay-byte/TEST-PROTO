@@ -122,19 +122,22 @@ button {
 }
 
 /* Detail view slides in from the right */
-.view[data-view="detail"] {
+.view[data-view="detail"],
+.view[data-view="player"] {
   transform: translateX(100%);
   transition: transform var(--dur-4) var(--ease-emphasized),
     opacity var(--dur-3) var(--ease-emphasized-decel);
 }
 
-.view[data-view="detail"].view--active {
+.view[data-view="detail"].view--active,
+.view[data-view="player"].view--active {
   transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .view,
-  .view[data-view="detail"] {
+  .view[data-view="detail"],
+  .view[data-view="player"] {
     transition: none !important;
   }
 }
