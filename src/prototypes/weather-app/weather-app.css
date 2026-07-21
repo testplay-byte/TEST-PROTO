@@ -1,0 +1,150 @@
+/* weather-app.css — prototype-wide token overrides + global styles.
+   Imported by app/prototypes/weather-app/layout.tsx. */
+
+/* Override the M3 purple palette with a warm sky palette. */
+.device {
+  --color-primary: #4fc3f7;
+  --color-primary-fg: #0a1628;
+  --color-primary-container: rgba(79, 195, 247, 0.18);
+  --color-on-primary-container: #b3e5fc;
+  --color-secondary: #ffb74d;
+  --color-secondary-container: rgba(255, 183, 77, 0.16);
+  --color-on-secondary-container: #ffe0b2;
+  --color-tertiary: #81c784;
+  --color-tertiary-container: rgba(129, 199, 132, 0.16);
+  --color-on-tertiary-container: #c8e6c9;
+  --color-error: #ef5350;
+  --color-surface: #0d1b2a;
+  --color-surface-1: #0d1b2a;
+  --color-surface-2: #112240;
+  --color-surface-3: #152b4a;
+  --color-surface-4: #1a3555;
+  --color-surface-5: #1f4060;
+  --color-bg: #0a1628;
+  --color-text: #e0e6ed;
+  --color-text-muted: #8899aa;
+  --color-outline: #2a4058;
+  --color-outline-variant: #1e3050;
+}
+
+.device[data-theme="light"] {
+  --color-primary: #0288d1;
+  --color-primary-fg: #ffffff;
+  --color-primary-container: rgba(2, 136, 209, 0.12);
+  --color-on-primary-container: #0277bd;
+  --color-secondary: #f57c00;
+  --color-secondary-container: rgba(245, 124, 0, 0.12);
+  --color-on-secondary-container: #e65100;
+  --color-tertiary: #388e3c;
+  --color-tertiary-container: rgba(56, 142, 60, 0.12);
+  --color-on-tertiary-container: #2e7d32;
+  --color-error: #d32f2f;
+  --color-surface: #f5f7fa;
+  --color-surface-1: #f5f7fa;
+  --color-surface-2: #e8edf2;
+  --color-surface-3: #dce3ea;
+  --color-surface-4: #cfd8e2;
+  --color-surface-5: #c0cbd8;
+  --color-bg: #eef1f5;
+  --color-text: #1a2332;
+  --color-text-muted: #5a6b7a;
+  --color-outline: #b0c0cc;
+  --color-outline-variant: #d0dce6;
+}
+
+body {
+  font-family: "Roboto", "Inter", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  background: var(--stage-bg);
+  color: var(--sb-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input,
+select {
+  font: inherit;
+}
+
+/* Side-panel content */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--r-pill);
+  background: var(--sb-muted);
+  color: var(--sb-text);
+  border: 1px solid var(--sb-border);
+}
+
+.screeninfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.screeninfo__name {
+  font-size: var(--fs-body-l);
+  font-weight: 700;
+}
+.screeninfo__desc {
+  font-size: var(--fs-label);
+  color: var(--sb-text-muted);
+  line-height: 1.5;
+}
+
+.mini-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.mini-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mini-bar-label {
+  width: 52px;
+  font-size: 10px;
+  color: var(--sb-text-muted);
+}
+.mini-bar-track {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--r-pill);
+  background: var(--sb-muted);
+  overflow: hidden;
+}
+.mini-bar-fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+}
+.mini-bar-num {
+  width: 28px;
+  text-align: right;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: var(--sb-text-muted);
+}
+
+.kvlist {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.kvlist__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+.kvlist__row span {
+  color: var(--sb-text-muted);
+}
+.kvlist__row b {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}

@@ -1,0 +1,201 @@
+/* WelcomeScreen — onboarding with location search. */
+
+.root {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: var(--sp-5) var(--sp-4);
+  background: linear-gradient(180deg,
+    var(--color-surface-2) 0%,
+    var(--color-bg) 60%);
+  scrollbar-width: none;
+}
+.root::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hero */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--sp-5) var(--sp-2) var(--sp-4);
+}
+
+.iconWrap {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  background: var(--color-primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-4);
+  animation: iconPopIn var(--dur-4) var(--ease-emphasized) both;
+}
+
+@keyframes iconPopIn {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.title {
+  font-size: var(--fs-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0 0 var(--sp-2);
+  animation: fadeUp var(--dur-4) var(--ease-emphasized) 0.1s both;
+}
+
+.subtitle {
+  font-size: var(--fs-body-l);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
+  animation: fadeUp var(--dur-4) var(--ease-emphasized) 0.2s both;
+}
+
+@keyframes fadeUp {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Search */
+.searchSection {
+  margin-bottom: var(--sp-5);
+  animation: fadeUp var(--dur-4) var(--ease-emphasized) 0.3s both;
+}
+
+.searchWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--sp-3);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  height: 48px;
+  background: var(--color-surface-3);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--r-md);
+  padding: 0 var(--sp-4) 0 42px;
+  font-size: var(--fs-body-l);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color var(--dur-2) var(--ease-emphasized),
+              box-shadow var(--dur-2) var(--ease-emphasized);
+}
+.searchInput::placeholder {
+  color: var(--color-text-muted);
+}
+.searchInput:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-container);
+}
+
+/* Results */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.resultCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--color-surface-2);
+  border: none;
+  border-radius: var(--r-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background var(--dur-2) var(--ease-emphasized);
+}
+.resultCard:active {
+  background: var(--color-surface-3);
+  transform: scale(0.98);
+}
+
+.resultLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.cityName {
+  font-size: var(--fs-body-l);
+  font-weight: 600;
+}
+
+.countryName {
+  font-size: var(--fs-label);
+  color: var(--color-text-muted);
+}
+
+/* Popular */
+.popularSection {
+  animation: fadeUp var(--dur-4) var(--ease-emphasized) 0.4s both;
+}
+
+.popularLabel {
+  display: block;
+  font-size: var(--fs-label-s);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  margin-bottom: var(--sp-2);
+}
+
+.popularGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.popularChip {
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    background var(--dur-2) var(--ease-emphasized),
+    border-color var(--dur-2) var(--ease-emphasized);
+}
+.popularChip:hover {
+  border-color: var(--color-primary);
+}
+.popularChip:active {
+  background: var(--color-primary-container);
+  transform: scale(0.96);
+}

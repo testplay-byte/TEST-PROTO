@@ -1,0 +1,126 @@
+/* HomeScreen — current weather dashboard. */
+
+.root {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-bottom: 90px;
+}
+.root::-webkit-scrollbar {
+  display: none;
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding-top: 160px;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-surface-3);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingText {
+  font-size: var(--fs-body-l);
+  color: var(--color-text-muted);
+}
+
+/* Header */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-5) var(--sp-4) var(--sp-4);
+  background: linear-gradient(180deg,
+    var(--color-surface-2) 0%,
+    transparent 100%);
+}
+
+.headerIcon {
+  margin-bottom: var(--sp-3);
+}
+
+.headerTemp {
+  font-size: 64px;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  line-height: 1;
+  margin-bottom: var(--sp-1);
+}
+
+.headerDesc {
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+  margin-bottom: var(--sp-2);
+}
+
+.headerRange {
+  font-size: var(--fs-label);
+  color: var(--color-secondary);
+  font-weight: 600;
+  margin-bottom: var(--sp-2);
+}
+
+.headerLocation {
+  font-size: var(--fs-body-l);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Detail grid */
+.detailGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-3) var(--sp-5);
+}
+
+.detailCard {
+  background: var(--color-surface-2);
+  border-radius: var(--r-md);
+  padding: var(--sp-4) var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  transition: transform var(--dur-2) var(--ease-emphasized);
+}
+.detailCard:active {
+  transform: scale(0.97);
+}
+
+.detailIcon {
+  color: var(--color-primary);
+  margin-bottom: var(--sp-1);
+}
+
+.detailLabel {
+  font-size: var(--fs-label-s);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.detailValue {
+  font-size: var(--fs-body-l);
+  font-weight: 700;
+  color: var(--color-text);
+}

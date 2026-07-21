@@ -1175,6 +1175,226 @@ export default function Page() {
               </div>
             </article>
 
+            {/* ===== Weather App (beautiful minimal weather prototype) ===== */}
+            <article className="show">
+              <div className="show__info show__info--left">
+                <span className="tag tag--status">new</span>
+                <h3 className="show__name">Weather App</h3>
+                <p className="show__desc">
+                  A beautiful, minimal weather app with current conditions,
+                  6 live stats, hourly and daily forecasts (12h + 7-day),
+                  location search across 8 cities, and customizable units
+                  with dark/light theming. Sky-blue palette.
+                </p>
+                <div className="tags">
+                  <span className="tag">Weather</span>
+                  <span className="tag">Dark/light</span>
+                  <span className="tag">v1</span>
+                </div>
+              </div>
+              <a
+                className="phone"
+                href="prototypes/weather-app/"
+                aria-label="Open Weather App prototype"
+                style={{
+                  borderColor: "#1a3555",
+                  background:
+                    "linear-gradient(160deg, #0d1b2a, #152b4a)",
+                }}
+              >
+                <span
+                  className="phone__screen"
+                  style={{ background: "#0a1628" }}
+                >
+                  <span
+                    className="phone__statusbar"
+                    style={{ color: "#e0e6ed" }}
+                  >
+                    <span>9:41</span>
+                    <span className="phone__punchhole" />
+                    <span>87%</span>
+                  </span>
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: 48,
+                      marginTop: 12,
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: "50%",
+                        background: "var(--chart-4)",
+                      }}
+                    />
+                  </span>
+                  <span
+                    style={{
+                      marginTop: 10,
+                      height: 16,
+                      width: "50%",
+                      borderRadius: 4,
+                      background: "#112240",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                  />
+                  <span
+                    style={{
+                      marginTop: 12,
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: 4,
+                    }}
+                  >
+                    <span
+                      style={{
+                        padding: "4px 8px",
+                        borderRadius: 6,
+                        background: "#112240",
+                        height: 24,
+                      }}
+                    />
+                    <span
+                      style={{
+                        padding: "4px 8px",
+                        borderRadius: 6,
+                        background: "#1e3050",
+                        height: 24,
+                      }}
+                    />
+                  </span>
+                  <span
+                    style={{
+                      marginTop: 14,
+                      display: "flex",
+                      gap: 4,
+                    }}
+                  >
+                    <span
+                      style={{
+                        flex: 1,
+                        height: 14,
+                        borderRadius: 4,
+                        background: "#112240",
+                      }}
+                    />
+                    <span
+                      style={{
+                        flex: 1,
+                        height: 14,
+                        borderRadius: 4,
+                        background: "#112240",
+                      }}
+                    />
+                  </span>
+                  <span
+                    className="phone__nav"
+                    style={{
+                      borderTopColor: "#112240",
+                      background: "#112240",
+                    }}
+                  >
+                    <span style={{ background: "#4fc3f7" }} />
+                    <span style={{ background: "#1e3050" }} />
+                    <span style={{ background: "#1e3050" }} />
+                  </span>
+                </span>
+              </a>
+              <div className="show__info show__info--right">
+                <div className="mini-donut">
+                  <svg width="56" height="56" viewBox="0 0 56 56">
+                    <circle
+                      cx="28"
+                      cy="28"
+                      r="22"
+                      fill="none"
+                      stroke="var(--muted)"
+                      strokeWidth="6"
+                    />
+                    <circle
+                      cx="28"
+                      cy="28"
+                      r="22"
+                      fill="none"
+                      stroke="var(--chart-4)"
+                      strokeWidth="6"
+                      strokeDasharray="138 138"
+                      transform="rotate(-90 28 28)"
+                    />
+                  </svg>
+                  <span className="mini-donut__num">4</span>
+                </div>
+                <div className="mini-bars">
+                  <div className="mini-bar-row">
+                    <span className="mini-bar-label">Cities</span>
+                    <div className="mini-bar-track">
+                      <div
+                        className="mini-bar-fill"
+                        style={{
+                          width: "100%",
+                          background: "var(--chart-4)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="mini-bar-row">
+                    <span className="mini-bar-label">Stats</span>
+                    <div className="mini-bar-track">
+                      <div
+                        className="mini-bar-fill"
+                        style={{
+                          width: "90%",
+                          background: "var(--chart-2)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="mini-bar-row">
+                    <span className="mini-bar-label">Settings</span>
+                    <div className="mini-bar-track">
+                      <div
+                        className="mini-bar-fill"
+                        style={{
+                          width: "60%",
+                          background: "var(--chart-1)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="kv">
+                  <div className="kv__row">
+                    <b>4</b>&nbsp;screens
+                  </div>
+                  <div className="kv__row">
+                    <b>Sky</b>&nbsp;theme
+                  </div>
+                </div>
+                <a className="openlink" href="prototypes/weather-app/">
+                  Open prototype
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </article>
+
             {/* ===== Setup Wizard (animated 8-step setup wizard) ===== */}
             <article className="show">
               <div className="show__info show__info--left">
